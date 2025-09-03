@@ -10,7 +10,7 @@ description: |
 
 about:
   template: jolla
-  image: files/noodles.jpeg
+  image: files/noodles.png
   image-shape: round
   image-width: 10em
   

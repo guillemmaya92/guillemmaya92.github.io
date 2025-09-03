@@ -10,7 +10,7 @@ description: |
 
 about:
   template: jolla
-  image: files/world.jpeg
+  image: files/coffee.png
   image-shape: round
   image-width: 10em
   
@@ -37,4 +37,4 @@ header-includes:
 
 <hr style="width: 60%; margin: auto; border-top: 0.75px solid #aaaa; margin-top: 20px; margin-bottom: 20px;">
 
-De ningún lado, profundizando en los desafíos que enfrentan las economías modernas. Soy un entusiasta de los datos y la economía, interesado en explorar y descubrir una comprensión genuina del mundo global. Enfocado en las desigualdades sociales y el desarrollo de una economía sostenible, sigo un enfoque transversal que examina estos conceptos desde una perspectiva holística y multidisciplinaria.
+De ningún lugar, profundizando en los desafíos que enfrentan las economías modernas. Soy un entusiasta de los datos y la economía, interesado en explorar y descubrir una comprensión genuina del mundo global. Enfocado en las desigualdades sociales y el desarrollo de una economía sostenible, sigo un enfoque transversal que examina estos conceptos desde una perspectiva holística y multidisciplinaria.
