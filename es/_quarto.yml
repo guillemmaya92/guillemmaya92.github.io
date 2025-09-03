@@ -1,0 +1,75 @@
+project:
+  type: website
+  output-dir: ../docs/es
+  
+resources:
+  - CNAME
+
+website:
+  # title: "Guillem Maya"
+  # description: "A data economics blog and portfolio by Guillem Maya"
+  site-url: https://guillemmaya.com
+  repo-url: https://github.com/guillemmaya92/guillemmaya.com
+  favicon: files/favicon.png
+  back-to-top-navigation: true
+  google-analytics:
+    tracking-id: "G-GJVKVH4E2Y"
+    anonymize-ip: true
+  navbar:
+    style: "docked"
+    collapse: true
+    background: transparent
+    right:
+      - href: index.qmd
+        text: inicio
+      - href: posts.qmd
+        text: entradas
+      - href: cv.qmd
+        text: cv
+      - text: idioma
+        menu:
+          - text: '<img src="/files/en.svg" width="16"/> Inglés'
+            href: "../{{< meta filename >}}.html"
+          - text: '<img src="/files/es.svg" width="16"/> Español'
+            href: "{{< meta filename >}}.html"
+          - text: '<img src="/files/cn.svg" width="16"/> Chino'
+            href: "../cn/{{< meta filename >}}.html"
+        
+  page-footer:
+    border: false
+    left: |
+      Desarrollado con [{{< iconify simple-icons:quarto >}} Quarto](https://quarto.org).
+    right: |
+      Hecho con <span style="color: #22bc9c;">{{< fa heart title="a heart" >}}</span> en <a href="https://www.google.com/maps/place/Girona" target="_blank" style="text-decoration: none; color: inherit;">Girona</a>
+
+format:
+  html:
+    theme:
+      light: [flatly, "styles/theme-light.scss"]
+      dark: [darkly, "styles/theme-dark.scss"]
+    css:
+      - styles/styles.css
+    mainfont: "Open Sans"
+    fontsize: 11pt
+    date-format: medium
+    lang: es
+    toc: false
+
+bluesky-comments:
+  mute-patterns:
+    - "📌"
+    - "🔥"
+    - "/\\bspam\\b/i"  # regex pattern
+  mute-users:
+    - "did:plc:1234abcd"
+  filter-empty-replies: true
+  visible-comments: 3
+  visible-subcomments: 3
+
+editor: visual
+
+lang: "es"
+
+execute:
+  enabled: false
+

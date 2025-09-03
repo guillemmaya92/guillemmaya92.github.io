@@ -1,0 +1,25 @@
+---
+title: "文章"
+
+filename: posts
+
+lang: "zh"
+
+listing:
+  contents: posts
+  type: table
+  fields: [date, title]
+  sort:
+    - "date desc"
+    - "title desc"
+  table-striped: false
+  table-hover: false
+  date-format: medium
+  sort-ui: false
+  categories: false
+
+fontsize: 11pt
+mainfont: "Open Sans"
+
+toc: false
+---

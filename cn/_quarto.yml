@@ -1,0 +1,74 @@
+project:
+  type: website
+  output-dir: ../docs/cn
+  
+resources:
+  - CNAME
+
+website:
+  # title: "Guillem Maya"
+  # description: "A data economics blog and portfolio by Guillem Maya"
+  site-url: https://guillemmaya.com
+  repo-url: https://github.com/guillemmaya92/guillemmaya.com
+  favicon: files/favicon.png
+  back-to-top-navigation: true
+  google-analytics:
+    tracking-id: "G-GJVKVH4E2Y"
+    anonymize-ip: true
+  navbar:
+    style: "docked"
+    collapse: true
+    background: transparent
+    right:
+      - href: index.qmd
+        text: 首页
+      - href: posts.qmd
+        text: 帖子
+      - href: cv.qmd
+        text: 简历
+      - text: 语言
+        menu:
+          - text: '<img src="/files/en.svg" width="16"/> 英文'
+            href: "../{{< meta filename >}}.html"
+          - text: '<img src="/files/es.svg" width="16"/> 西班牙语'
+            href: "../es/{{< meta filename >}}.html"
+          - text: '<img src="/files/cn.svg" width="16"/> 中文'
+            href: "{{< meta filename >}}.html"
+        
+  page-footer:
+    border: false
+    left: |
+      使用 [{{< iconify simple-icons:quarto >}} Quarto](https://quarto.org).
+    right: |
+      在<a href="https://map.baidu.com/search/%E8%B5%AB%E7%BD%97%E7%BA%B3/@313782.98,5129255.33,8z" target="_blank" style="text-decoration: none; color: inherit;">赫罗纳</a>用 <span style="color: #22bc9c;">{{< fa heart title="a heart" >}}</span> 制作
+
+format:
+  html:
+    theme:
+      light: [flatly, "styles/theme-light.scss"]
+      dark: [darkly, "styles/theme-dark.scss"]
+    css:
+      - styles/styles.css
+    mainfont: "Open Sans"
+    fontsize: 11pt
+    date-format: medium
+    toc: false
+
+bluesky-comments:
+  mute-patterns:
+    - "📌"
+    - "🔥"
+    - "/\\bspam\\b/i"  # regex pattern
+  mute-users:
+    - "did:plc:1234abcd"
+  filter-empty-replies: true
+  visible-comments: 3
+  visible-subcomments: 3
+
+editor: visual
+
+lang: "zh"
+
+execute:
+  enabled: false
+

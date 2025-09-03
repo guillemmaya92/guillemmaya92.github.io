@@ -1,0 +1,178 @@
+---
+title: "Guillem Maya"
+
+filename: "cv"
+
+description: |
+  <span style="font-size: 16px; text-align: center; display: block;">
+    业务控制员 | 商业智能顾问 | 数据分析师
+  </span>
+
+about:
+  template: jolla
+  image: files/guillemmaya92.jpeg
+  image-shape: round
+  image-width: 10em
+  
+theme:
+  light: flatly
+  dark: darkly
+
+toc: false
+fontsize: 11pt
+mainfont: "Open Sans"
+---
+
+<hr style="width: 60%; margin: auto; border-top: 0.75px solid #aaaa; margin-bottom: 20px;">
+
+::: {style="text-align: center;"}
+## 关于我
+:::
+
+::: {style="text-align: justify;"}
+年轻，渴望学习，特别热衷于科技与计算机科学。我希望在数据分析领域发展我的职业生涯，并对金融与业务流程有深入理解。我目标是在一个持续学习的环境中成长，并能够实施推动企业更高效运作的新系统。
+:::
+
+<br>
+
+<hr style="width: 80%; margin: auto; border-top: 1px solid inherit; margin-top: 20px; margin-bottom: 20px;">
+
+::: {style="text-align: center;"}
+## 工作经历
+:::
+
+:::::::::::: {style="text-align: justify;"}
+**商业智能开发人员**<br> <a href="https://www.kingspan.com/" target="_blank">金斯潘隔热材料公司</a> \| <i>2024年2月 – 至今</i>
+
+::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
+<i style="color: #f07f7f; font-style: normal;">⚲</i> 西班牙赫罗纳
+:::
+
+<details style="text-align: justify;" close>
+
+<summary>职位描述</summary>
+
+在 IT 团队中与 Agility ERP 软件开发人员协作，我们为全球多家工厂设计定制化解决方案。我的工作主要集中在数据分析，对所有业务流程有深入理解。使用 T-SQL 查询和 ETL 技术（借助存储过程和任务调度）管理数据管道。开发高级分析模型，并在 SSAS、Power BI、SSRS 和 Report Builder 中生成报表。为业务用户提供可操作的洞察，以便支持明智决策，并推动公司向组织效率模型发展。
+
+</details>
+
+::: {style="height: 1rem;"}
+:::
+
+**业务数据分析师**<br> <a href="https://www.costabravafoods.com/" target="_blank">Costa Brava 地中海食品</a> \| *2023年9月 – 2024年2月*
+
+::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
+<i style="color: #f07f7f; font-style: normal;">⚲</i> 西班牙赫罗纳
+:::
+
+<details style="text-align: justify;">
+
+<summary>职位描述</summary>
+
+在 Navision 中定义工作流程，主要目标是优化流程并保证数据质量。熟练通过 SQL 查询和存储过程提取和整理原始数据。协调和管理数据流。使用 Power BI 开发高级分析模型，并通过 DAX 计算业务指标。发现复杂的数据模式，帮助公司更好地理解业务。定义报表并展示洞察，以提升决策效率。
+
+</details>
+
+::: {style="height: 1rem;"}
+:::
+
+**商业控制员**<br> <a href="https://www.inoxpa.com/" target="_blank">INOXPA 集团</a> \| *2022年3月 – 2023年9月*
+
+::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
+<i style="color: #f07f7f; font-style: normal;">⚲</i> 西班牙赫罗纳
+:::
+
+<details style="text-align: justify;">
+
+<summary>职位描述</summary>
+
+向首席商务官 (CCO) 和首席财务官 (CFO) 汇报，为全球 17 个商务分支提供支持，跟踪工业和商业利润率，审查汇率并监控折扣，编制公司预算和战略计划，审查 Microsoft Dynamics AX 中的业务流程，将 Power BI 开发为主要报表工具。
+
+</details>
+
+::: {style="height: 1rem;"}
+:::
+
+**业务控制员**<br> <a href="https://mediamarktsaturn.com/" target="_blank">MediaMarkt 伊比利亚</a> \| *2020年3月 – 2020年6月*
+
+::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
+<i style="color: #f07f7f; font-style: normal;">⚲</i> 西班牙巴塞罗那
+:::
+
+<details style="text-align: justify;">
+
+<summary>职位描述</summary>
+
+对整个连锁店网络进行管理控制，按店铺进行 KPI 指标的月度报告，制定预算并衡量公司目标，利用业务预测模型进行战略规划，分析促销和商业活动的盈利能力，定期执行财务审计以确保政策和流程的质量控制。
+
+</details>
+
+::: {style="height: 1rem;"}
+:::
+
+**商业控制员**<br> <a href="https://www.haribo.com/" target="_blank">哈瑞宝</a> \| *2016年6月 – 2020年3月*
+
+::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
+<i style="color: #f07f7f; font-style: normal;">⚲</i> 西班牙赫罗纳
+:::
+
+<details style="text-align: justify;">
+
+<summary>职位描述</summary>
+
+根据商业协议计算应计费用，预测年度预算，在 IBM Cognos BI 中开发 TM1 解决方案，向控股集团报告净销售额 (NNSales)，为财务会计、定价和促销策略设计一致的业务控制模型，分析物流项目，进行集团计划 (Konzernplan) 的内部公司销售对账。
+
+</details>
+
+<br>
+::::::::::::
+
+<hr style="width: 80%; margin: auto; border-top: 1px solid inherit; margin-top: 20px; margin-bottom: 20px;">
+
+::: {style="text-align: center;"}
+## 教育背景
+:::
+
+::: {style="text-align: justify;"}
+**巴塞罗那自治大学** \| *西班牙巴塞罗那*<br> 教育与师资培训硕士学位，数学专业 \| *2020年9月 – 2021年6月*
+
+**蒙特雷理工大学** \| *墨西哥瓜达拉哈拉*<br> 桑坦德银行伊比利亚美洲奖学金 \| *2017年1月 – 2017年6月*
+
+**赫罗纳大学** \| *西班牙赫罗纳*<br> 工商管理学士学位 \| *2013年9月 – 2017年6月*<br>
+:::
+
+<br>
+
+<hr style="width: 80%; margin: auto; border-top: 1px solid inherit; margin-top: 20px; margin-bottom: 20px;">
+
+::::::::: columns
+::::: {.column width="50%"}
+::: {style="text-align: center;"}
+## 语言能力
+:::
+
+::: {style="text-align: justify;"}
+**加泰罗尼亚语** <br> 母语
+
+**西班牙语** <br> 母语
+
+**英语** <br> 中高级 <br> *B2 (MECR)*
+:::
+:::::
+
+::::: {.column width="50%"}
+::: {style="text-align: center;"}
+## 技能
+:::
+
+::: {style="text-align: justify;"}
+**企业管理** <br> MS Office、SAP、SAP BO、AS/400、MS Dynamics AX，高级商务用户技能
+
+**数据分析** <br> Microsoft SQL Server、SSIS、SSAS、VBA、SPSS Statistics、IBM Cognos、Power BI、SSRS、Tableau、QlikView、SQL、DAX、R 和 Python
+:::
+:::::
+:::::::::
+
+<hr style="width: 80%; margin: auto; border-top: 1px solid inherit; margin-top: 20px; margin-bottom: 40px;">
+
+<a href="files/cv_guillem.maya_cn.pdf" download class="btn btn-success">下载 PDF</a>

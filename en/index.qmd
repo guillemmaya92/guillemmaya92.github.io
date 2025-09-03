@@ -1,0 +1,40 @@
+---
+title: "hello world!"
+
+filename: index
+
+description: |
+  <span id="typing-effect" style="font-size: 16px; text-align: center; display: block;">
+    <i>@donotblame.me</i>
+  </span>
+
+about:
+  template: jolla
+  image: files/world.jpeg
+  image-shape: round
+  image-width: 10em
+  
+  #links:
+  #  - icon: envelope
+  #    text: Email
+  #    href: mailto:guillem.maya92@gmail.com
+  #  - icon: github
+  #    text: Github
+  #    href: https://github.com/guillemmaya92
+  #  - icon: linkedin
+  #    text: LinkedIn
+  #    href: https://www.linkedin.com/in/guillemmaya
+  #  - text: "{{< iconify fa6-brands bluesky >}} Bluesky"
+  #    href: https://bsky.app/profile/guillemmaya.com
+      
+header-includes:
+  - <script src="application/typing-effect.js"></script>
+---
+
+<!-- Icons with links -->
+
+<link rel="stylesheet" href="/styles/glitch.css"> <a href="mailto:guillem.maya92@gmail.com" target="_blank" style="margin: 0 10px; text-decoration: none;"> <i class="fa-solid fa-envelope" style="font-size: 20px;"></i> </a> <a href="https://github.com/guillemmaya92" target="_blank" style="margin: 0 10px; text-decoration: none;"> <i class="fa-brands fa-github" style="font-size: 20px;"></i> </a> <a href="https://www.linkedin.com/in/guillemmaya" target="_blank" style="margin: 0 10px; text-decoration: none;"> <i class="fa-brands fa-linkedin" style="font-size: 20px;"></i> </a> <a href="https://bsky.app/profile/guillemmaya.com" target="_blank" style="margin: 0 10px; text-decoration: none;"> <i class="fa-brands fa-bluesky" style="font-size: 20px;"></i> </a>
+
+<hr style="width: 60%; margin: auto; border-top: 0.75px solid #aaaa; margin-top: 20px; margin-bottom: 20px;">
+
+From nowhere, delving into the challenges faced by modern economies. I am an enthusiast of data and economics, interested in exploring and uncovering a genuine comprehension of the global world. Focused on social inequalities and the development of a sustainable economy, I pursue a transversal approach that examines these concepts from a holistic and multidisciplinary perspective.

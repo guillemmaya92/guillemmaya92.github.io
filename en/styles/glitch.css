@@ -1,0 +1,39 @@
+/* Apply to light theme */
+body.quarto-light a i:hover {
+    animation: glitch-light 2s steps(30) infinite;
+}
+
+/* Apply to dark theme */
+body.quarto-dark a i:hover {
+    animation: glitch-dark 2s steps(30) infinite;
+}
+
+/* Animation light theme */
+@keyframes glitch-light {
+    0% { text-shadow: 2px 2px 0 rgba(255, 150, 150, 1), -2px -2px 0 rgba(150, 150, 255, 1); }
+    10% { text-shadow: -2px 2px 0 rgba(255, 200, 200, 1), 2px -2px 0 rgba(200, 200, 255, 1); }
+    20% { text-shadow: 3px 3px 0 rgba(255, 180, 180, 1), -3px -3px 0 rgba(180, 180, 255, 1); }
+    30% { text-shadow: -3px -3px 0 rgba(255, 220, 220, 1), 3px 3px 0 rgba(220, 220, 255, 1); }
+    40% { text-shadow: 2px 2px 0 rgba(255, 180, 180, 1), -2px -2px 0 rgba(180, 255, 180, 1); }
+    50% { text-shadow: -2px 2px 0 rgba(200, 255, 200, 1), 2px -2px 0 rgba(180, 255, 180, 1); }
+    60% { text-shadow: 3px 3px 0 rgba(180, 255, 180, 1), -3px -3px 0 rgba(180, 180, 255, 1); }
+    70% { text-shadow: -3px -3px 0 rgba(255, 180, 180, 1), 3px 3px 0 rgba(180, 255, 180, 1); }
+    80% { text-shadow: 2px 2px 0 rgba(180, 200, 255, 1), -2px -2px 0 rgba(255, 200, 255, 1); }
+    90% { text-shadow: -2px 2px 0 rgba(200, 200, 255, 1), 2px -2px 0 rgba(255, 200, 200, 1); }
+    100% { text-shadow: 3px 3px 0 rgba(180, 180, 255, 1), -3px -3px 0 rgba(255, 180, 180, 1); }
+}
+
+/* Animation dark theme */
+@keyframes glitch-dark {
+    0% { text-shadow: 2px 2px 0 rgba(255, 150, 150, 0.7), -2px -2px 0 rgba(150, 150, 255, 0.7); }
+    10% { text-shadow: -2px 2px 0 rgba(255, 200, 200, 0.7), 2px -2px 0 rgba(200, 200, 255, 0.7); }
+    20% { text-shadow: 3px 3px 0 rgba(255, 180, 180, 0.7), -3px -3px 0 rgba(180, 180, 255, 0.7); }
+    30% { text-shadow: -3px -3px 0 rgba(255, 220, 220, 0.7), 3px 3px 0 rgba(220, 220, 255, 0.7); }
+    40% { text-shadow: 2px 2px 0 rgba(255, 180, 180, 0.7), -2px -2px 0 rgba(180, 255, 180, 0.7); }
+    50% { text-shadow: -2px 2px 0 rgba(200, 255, 200, 0.7), 2px -2px 0 rgba(180, 255, 180, 0.7); }
+    60% { text-shadow: 3px 3px 0 rgba(180, 255, 180, 0.7), -3px -3px 0 rgba(180, 180, 255, 0.7); }
+    70% { text-shadow: -3px -3px 0 rgba(255, 180, 180, 0.7), 3px 3px 0 rgba(180, 255, 180, 0.7); }
+    80% { text-shadow: 2px 2px 0 rgba(180, 200, 255, 0.7), -2px -2px 0 rgba(255, 200, 255, 0.7); }
+    90% { text-shadow: -2px 2px 0 rgba(200, 200, 255, 0.7), 2px -2px 0 rgba(255, 200, 200, 0.7); }
+    100% { text-shadow: 3px 3px 0 rgba(180, 180, 255, 0.7), -3px -3px 0 rgba(255, 180, 180, 0.7); }
+}

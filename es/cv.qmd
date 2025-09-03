@@ -1,0 +1,178 @@
+---
+title: "Guillem Maya"
+
+filename: "cv"
+
+description: |
+  <span style="font-size: 16px; text-align: center; display: block;">
+    Controller de Negocio | Consultor BI | Analista de Datos
+  </span>
+
+about:
+  template: jolla
+  image: files/guillemmaya92.jpeg
+  image-shape: round
+  image-width: 10em
+  
+theme:
+  light: flatly
+  dark: darkly
+
+toc: false
+fontsize: 11pt
+mainfont: "Open Sans"
+---
+
+<hr style="width: 60%; margin: auto; border-top: 0.75px solid #aaaa; margin-bottom: 20px;">
+
+::: {style="text-align: center;"}
+## Acerca de mí
+:::
+
+::: {style="text-align: justify;"}
+Joven, con ganas de aprender y con especial dedicación a la tecnología y la informática. Busco desarrollar mi carrera profesional en el campo del análisis de datos con un profundo entendimiento de las finanzas y los procesos empresariales. Mi objetivo es avanzar en un entorno de aprendizaje constante y poder implementar nuevos sistemas que impulsen a las empresas hacia una mayor eficiencia.
+:::
+
+<br>
+
+<hr style="width: 80%; margin: auto; border-top: 1px solid inherit; margin-top: 20px; margin-bottom: 20px;">
+
+::: {style="text-align: center;"}
+## Experiencia
+:::
+
+:::::::::::: {style="text-align: justify;"}
+**Business Intelligence Developer**<br> <a href="https://www.kingspan.com/" target="_blank">Kingspan Insulation</a> \| <i>feb 24 - actualidad</i>
+
+::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
+<i style="color: #f07f7f; font-style: normal;">⚲</i> Girona
+:::
+
+<details style="text-align: justify;" close>
+
+<summary>Descripción</summary>
+
+Trabajando en el equipo de TI junto con los desarrolladores del software Agility ERP, diseñamos soluciones personalizadas para numerosas fábricas alrededor del mundo. Mis tareas se enfocan en el análisis de datos con un profundo entendimiento de todos los procesos empresariales. Gestión de pipelines de datos utilizando consultas T-SQL y técnicas ETL apoyadas por procedimientos almacenados y programación de trabajos. Desarrollo de modelos analíticos avanzados e informes en SSAS, Power BI, SSRS y Report Builder. Proporciono información procesable a los usuarios del negocio para facilitar la toma de decisiones informadas y llevar a la empresa hacia un modelo de eficiencia organizacional.
+
+</details>
+
+::: {style="height: 1rem;"}
+:::
+
+**Business Data Analyst**<br> <a href="https://www.costabravafoods.com/" target="_blank">Costa Brava Foods</a> \| *sep 23 - feb 24*
+
+::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
+<i style="color: #f07f7f; font-style: normal;">⚲</i> Girona
+:::
+
+<details style="text-align: justify;">
+
+<summary>Descripción</summary>
+
+Definición de flujos de trabajo en Navision con el objetivo principal de optimizar los procesos y garantizar la calidad de nuestros datos. Extracción y depuración eficiente de datos en bruto mediante consultas y procedimientos SQL. Orquestación y gestión de flujos de datos. Desarrollo de modelos analíticos avanzados en Power BI y cálculo de métricas empresariales utilizando DAX. Descubrimiento de patrones de datos complejos y fortalecimiento de la capacidad de la empresa para comprender mejor el negocio. Definición de informes y presentación de insights para mejorar la toma de decisiones.
+
+</details>
+
+::: {style="height: 1rem;"}
+:::
+
+**Commercial Controller**<br> <a href="https://www.inoxpa.com/" target="_blank">INOXPA</a> \| *mar 22 - sep 23*
+
+::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
+<i style="color: #f07f7f; font-style: normal;">⚲</i> Girona
+:::
+
+<details style="text-align: justify;">
+
+<summary>Descripción</summary>
+
+Reportando al CCO y al CFO, brindando soporte a las 17 delegaciones comerciales en el mundo, seguimiento de márgenes industriales y comerciales, revisión de tipos de cambio y monitoreo de descuentos, elaboración del presupuesto y del plan estratégico de la empresa, revisión de los procedimientos de negocio en Microsoft Dynamics AX y desarrollo de Power BI como herramienta principal de informes.
+
+</details>
+
+::: {style="height: 1rem;"}
+:::
+
+**Business Controller**<br> <a href="https://mediamarktsaturn.com/" target="_blank">Mediamarkt Iberia</a> \| *mar 20 - jun 20*
+
+::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
+<i style="color: #f07f7f; font-style: normal;">⚲</i> Barcelona
+:::
+
+<details style="text-align: justify;">
+
+<summary>Descripción</summary>
+
+Control de gestión de toda la red de tiendas, elaboración de informes mensuales de métricas KPI por tienda, presupuestación y medición de los objetivos de la empresa, realización de planificación estratégica apoyada en modelos de previsión empresarial, análisis de rentabilidad de promociones y campañas comerciales, y ejecución periódica de auditorías financieras para controlar la calidad de las políticas y procedimientos.
+
+</details>
+
+::: {style="height: 1rem;"}
+:::
+
+**Commercial Controller**<br> <a href="https://www.haribo.com/" target="_blank">Haribo Spain</a> \| *jun 16 - mar 20*
+
+::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
+<i style="color: #f07f7f; font-style: normal;">⚲</i> Girona
+:::
+
+<details style="text-align: justify;">
+
+<summary>Descripción</summary>
+
+Cálculo de los gastos devengados según los acuerdos comerciales, previsión del presupuesto anual, desarrollo de soluciones TM1 en IBM Cognos BI, elaboración de informes de NNSales para el Grupo Holding, diseño de modelos consistentes de control de negocio para contabilidad financiera, estrategia de precios y promociones, análisis de proyectos logísticos y conciliación de ventas entre compañías para el Konzernplan.
+
+</details>
+
+<br>
+::::::::::::
+
+<hr style="width: 80%; margin: auto; border-top: 1px solid inherit; margin-top: 20px; margin-bottom: 20px;">
+
+::: {style="text-align: center;"}
+## Formación
+:::
+
+::: {style="text-align: justify;"}
+**Universidad Autónoma de Barcelona** \| *Barcelona, España*<br> Máster en Educación y Formación de Profesorado, Matemáticas \| *Sept 20 - June 21*
+
+**Tecnológico de Monterrey** \| *Guadalajara, Mexico*<br> Beca Santander Banco Iberoamérica \| *ene 17 - jun 17*
+
+**Universitat de Girona** \| *Girona, España*<br> Grado en Administración y Dirección de Empresas \| *sep 13 - jun 17*<br>
+:::
+
+<br>
+
+<hr style="width: 80%; margin: auto; border-top: 1px solid inherit; margin-top: 20px; margin-bottom: 20px;">
+
+::::::::: columns
+::::: {.column width="50%"}
+::: {style="text-align: center;"}
+## Idiomas
+:::
+
+::: {style="text-align: justify;"}
+**Catalán** <br> Nativo
+
+**Castellano** <br> Nativo
+
+**Inglés** <br> Intermedio-Avanzado <br> *B2 (MECR)*
+:::
+:::::
+
+::::: {.column width="50%"}
+::: {style="text-align: center;"}
+## Habilidades
+:::
+
+::: {style="text-align: justify;"}
+**Gestión Empresarial** <br> MS Office, SAP, SAP BO, AS/400, MS Dynamics AX, Conocimientos avanzados de negocio.
+
+**Análisis de Datos** <br> Microsoft SQL Server, SSIS, SSAS, VBA, SPSS Statistics, IBM Cognos , Power BI, SSRS, Tableau, QlickView, SQL, DAX, R y Python.
+:::
+:::::
+:::::::::
+
+<hr style="width: 80%; margin: auto; border-top: 1px solid inherit; margin-top: 20px; margin-bottom: 40px;">
+
+<a href="files/cv_guillem.maya_es.pdf" download class="btn btn-success">Descargar pdf</a>
