@@ -38,7 +38,7 @@ website:
   page-footer:
     border: false
     left: |
-      使用 [{{< iconify simple-icons:quarto >}} Quarto](https://quarto.org).
+      由 [{{< iconify simple-icons:quarto >}} Quarto](https://quarto.org) 构建。
     right: |
       在<a href="https://map.baidu.com/search/%E8%B5%AB%E7%BD%97%E7%BA%B3/@313782.98,5129255.33,8z" target="_blank" style="text-decoration: none; color: inherit;">赫罗纳</a>用 <span style="color: #22bc9c;">{{< fa heart title="a heart" >}}</span> 制作
 
