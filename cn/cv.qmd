@@ -42,7 +42,7 @@ mainfont: "Open Sans"
 :::
 
 :::::::::::: {style="text-align: justify;"}
-**商业智能开发人员**<br> <a href="https://www.kingspan.com/" target="_blank">金斯潘隔热材料公司</a> \| <i>2024年2月 – 至今</i>
+**商业智能开发人员**<br> <a href="https://www.kingspan.com/" target="_blank">Kingspan Insulation</a> \| <i>24年2月 – 至今</i>
 
 ::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
 <i style="color: #f07f7f; font-style: normal;">⚲</i> 西班牙赫罗纳
@@ -59,7 +59,7 @@ mainfont: "Open Sans"
 ::: {style="height: 1rem;"}
 :::
 
-**业务数据分析师**<br> <a href="https://www.costabravafoods.com/" target="_blank">Costa Brava 地中海食品</a> \| *2023年9月 – 2024年2月*
+**业务数据分析师**<br> <a href="http://www.costabravafoods.com/zh-hans/" target="_blank">Costa Brava Foods</a> \| *23年9月 – 24年2月*
 
 ::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
 <i style="color: #f07f7f; font-style: normal;">⚲</i> 西班牙赫罗纳
@@ -76,7 +76,7 @@ mainfont: "Open Sans"
 ::: {style="height: 1rem;"}
 :::
 
-**商业控制员**<br> <a href="https://www.inoxpa.com/" target="_blank">INOXPA 集团</a> \| *2022年3月 – 2023年9月*
+**商业控制员**<br> <a href="https://www.inoxpa.cn/" target="_blank">INOXPA</a> \| *22年3月 – 23年9月*
 
 ::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
 <i style="color: #f07f7f; font-style: normal;">⚲</i> 西班牙赫罗纳
@@ -93,7 +93,7 @@ mainfont: "Open Sans"
 ::: {style="height: 1rem;"}
 :::
 
-**业务控制员**<br> <a href="https://mediamarktsaturn.com/" target="_blank">MediaMarkt 伊比利亚</a> \| *2020年3月 – 2020年6月*
+**业务控制员**<br> <a href="https://mediamarktsaturn.com/" target="_blank">MediaMarkt</a> \| *20年3月 – 20年6月*
 
 ::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
 <i style="color: #f07f7f; font-style: normal;">⚲</i> 西班牙巴塞罗那
@@ -110,7 +110,7 @@ mainfont: "Open Sans"
 ::: {style="height: 1rem;"}
 :::
 
-**商业控制员**<br> <a href="https://www.haribo.com/" target="_blank">哈瑞宝</a> \| *2016年6月 – 2020年3月*
+**商业控制员**<br> <a href="https://www.haribo.com/" target="_blank">HARIBO Spain</a> \| *16年6月 – 20年3月*
 
 ::: {style="text-align: right; font-size: 0.9rem; margin-top: -35px;"}
 <i style="color: #f07f7f; font-style: normal;">⚲</i> 西班牙赫罗纳
