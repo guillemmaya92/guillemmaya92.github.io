@@ -9,7 +9,7 @@ categories: [economy, python]
 
 date: "2026-11-25"
 
-keywords: ["war"]
+keywords: ["divergence"]
 
 image: FIG_IMG_GAP_GDP_Population_1992.png
 image-alt: |
