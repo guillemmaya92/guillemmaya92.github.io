@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="keywords" content="wealth-income">
-<meta name="description" content="An analysis of Ghana’s gold export market and their trading key partners.">
+<meta name="keywords" content="war">
+<meta name="description" content="The disproportionate nature of the Gaza conflict.">
 
-<title>Gold Ghana Where Does It Go?</title>
+<title>The Power Imbalance in Gaza’s Conflict?</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -81,8 +81,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-contrib/iconify-2.1.0/iconify-icon.min.js"></script>
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
-<script src="../../site_libs/quarto-contrib/bluesky-comments-1.0.0/bluesky-comments.js"></script>
-<link href="../../site_libs/quarto-contrib/bluesky-comments-1.0.0/styles.css" rel="stylesheet">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -157,15 +155,15 @@ gtag('config', 'G-GJVKVH4E2Y', { 'anonymize_ip': true});
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-language">    
         <li>
-    <a class="dropdown-item" href="../../posts/202609-ghana-gold/index.html">
+    <a class="dropdown-item" href="../../posts/202610-war-gaza/index.html">
  <span class="dropdown-text"><img src="../../files/en.svg" width="16"> English</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../es/posts/202609-ghana-gold/index.html">
+    <a class="dropdown-item" href="../../es/posts/202610-war-gaza/index.html">
  <span class="dropdown-text"><img src="../../files/es.svg" width="16"> Spanish</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../cn/posts/202609-ghana-gold/index.html">
+    <a class="dropdown-item" href="../../cn/posts/202610-war-gaza/index.html">
  <span class="dropdown-text"><img src="../../files/cn.svg" width="16"> Chinese</span></a>
   </li>  
     </ul>
@@ -188,7 +186,7 @@ gtag('config', 'G-GJVKVH4E2Y', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Gold Ghana Where Does It Go?</h1>
+<h1 class="title">The Power Imbalance in Gaza’s Conflict?</h1>
   <div class="quarto-categories">
     <div class="quarto-category">economy</div>
     <div class="quarto-category">python</div>
@@ -197,7 +195,7 @@ gtag('config', 'G-GJVKVH4E2Y', { 'anonymize_ip': true});
 
 <div>
   <div class="description">
-    An analysis of Ghana’s gold export market and their trading key partners.
+    The disproportionate nature of the Gaza conflict.
   </div>
 </div>
 
@@ -208,7 +206,7 @@ gtag('config', 'G-GJVKVH4E2Y', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Aug 27, 2026</p>
+      <p class="date">Oct 14, 2026</p>
     </div>
   </div>
   
@@ -219,7 +217,7 @@ gtag('config', 'G-GJVKVH4E2Y', { 'anonymize_ip': true});
 <div>
   <div class="keywords">
     <div class="block-title">Keywords</div>
-    <p>wealth-income</p>
+    <p>war</p>
   </div>
 </div>
 
@@ -228,185 +226,191 @@ gtag('config', 'G-GJVKVH4E2Y', { 'anonymize_ip': true});
 
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>The chart shows the main importers of gold from Ghana, one of the world’s largest producers and exporters.</p>
-<div id="a55f485c" class="cell">
+<p>The graphic shows the disproportionate nature of the Gaza conflict, where Israel’s advanced military and robust economy contrast with Gaza’s limited resources, fragile economy, and vulnerable population.</p>
+<div id="ed70efdf" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Libraries</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================================</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> comtradeapicall</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.image <span class="im">as</span> mpimg</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.offsetbox <span class="im">import</span> OffsetImage, AnnotationBbox</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Extraction</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================================</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert ISO to code</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>country <span class="op">=</span> comtradeapicall.convertCountryIso3ToCode(<span class="st">'GHA'</span>)[:<span class="dv">3</span>]</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create df using parameters</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> comtradeapicall.previewFinalData(</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    typeCode<span class="op">=</span><span class="st">'C'</span>,              <span class="co"># Goods (C) or Services (S)</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    freqCode<span class="op">=</span><span class="st">'A'</span>,              <span class="co"># Annual (A) or Monthly (M)</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    clCode<span class="op">=</span><span class="st">'HS'</span>,               <span class="co"># Indicates the product classification used and which version (HS, SITC)</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    period<span class="op">=</span><span class="st">'2023'</span>,             <span class="co"># Period</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    reporterCode<span class="op">=</span>country,      <span class="co"># Country origin (reporter)</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    cmdCode<span class="op">=</span><span class="st">'7108'</span>,            <span class="co"># Product code in conjunction with classification code (7108 Gold)</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    flowCode<span class="op">=</span><span class="st">'X'</span>,              <span class="co"># Exportaciones (X) imports (M)</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    partnerCode<span class="op">=</span><span class="va">None</span>,          <span class="co"># Country destination (partner)</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    partner2Code<span class="op">=</span><span class="va">None</span>,         <span class="co"># The primary partner country or geographic area for the respective trade flow</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    customsCode<span class="op">=</span><span class="va">None</span>,          <span class="co"># A secondary partner country or geographic area for the respective trade flow</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    motCode<span class="op">=</span><span class="va">None</span>,              <span class="co"># The mode of transport used when goods enter or leave the economic territory of a country</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    maxRecords<span class="op">=</span><span class="dv">500</span>,            <span class="co"># Limit number of returned records</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    format_output<span class="op">=</span><span class="st">'JSON'</span>,      <span class="co"># The output format. CSV or JSON</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    aggregateBy<span class="op">=</span><span class="va">None</span>,          <span class="co"># Option for aggregating the query</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    breakdownMode<span class="op">=</span><span class="st">'classic'</span>,   <span class="co"># Option to select the classic (trade by partner/product) or plus (extended breakdown) mode</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    countOnly<span class="op">=</span><span class="va">None</span>,            <span class="co"># Return the actual number of records if set to True</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    includeDesc<span class="op">=</span><span class="va">True</span>           <span class="co"># Option to include the description or not</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort data by value</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(by<span class="op">=</span><span class="st">'primaryValue'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Select and rename columns</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">'flowDesc'</span>, <span class="st">'refYear'</span>, <span class="st">'reporterISO'</span>, <span class="st">'reporterDesc'</span>, <span class="st">'partnerISO'</span>, <span class="st">'partnerDesc'</span>, <span class="st">'primaryValue'</span>, <span class="st">'customsDesc'</span>, <span class="st">'motDesc'</span>, <span class="st">'cmdCode'</span>, <span class="st">'cmdDesc'</span>]]</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> [<span class="st">'flow'</span>, <span class="st">'year'</span>,<span class="st">'reporter_iso'</span>,<span class="st">'reporter'</span>,<span class="st">'partner_iso'</span>,<span class="st">'partner'</span>,<span class="st">'value'</span>,<span class="st">'custom_desc'</span>,<span class="st">'transport_mode'</span>, <span class="st">'product_code'</span>, <span class="st">'product'</span>]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> wbgapi <span class="im">as</span> wb</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.image <span class="im">as</span> mpimg</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.ticker <span class="im">as</span> ticker</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.offsetbox <span class="im">import</span> OffsetImage, AnnotationBbox</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Extraction (Countries)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear el DataFrame</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'year'</span>: [<span class="st">'2024'</span>, <span class="st">'2024'</span>],</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'iso3'</span>: [<span class="st">'PSE'</span>, <span class="st">'ISR'</span>],</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'country'</span>: [<span class="st">'Palestine'</span>, <span class="st">'Israel'</span>],</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ngdpdpc'</span>: [<span class="fl">2.592</span>, <span class="fl">54.176</span>],</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'lp'</span>: [<span class="fl">5.3</span>, <span class="dv">10</span>] </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'ngdpd'</span>] <span class="op">=</span> df[<span class="st">'ngdpdpc'</span>] <span class="op">*</span> df[<span class="st">'lp'</span>]</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Manipulation</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Add calculated fields</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'lp_percent'</span>] <span class="op">=</span> df[<span class="st">'lp'</span>] <span class="op">/</span> df[<span class="st">'lp'</span>].<span class="bu">sum</span>()</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'ngdpd_percent'</span>] <span class="op">=</span> df[<span class="st">'ngdpd'</span>] <span class="op">/</span> df[<span class="st">'ngdpd'</span>].<span class="bu">sum</span>()</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'gap'</span>] <span class="op">=</span> df[<span class="st">'ngdpd_percent'</span>] <span class="op">-</span> df[<span class="st">'lp_percent'</span>]</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Ordenar por gap</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(by<span class="op">=</span><span class="st">'gap'</span>, ascending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate cumulative and left positions</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'lp_cum'</span>] <span class="op">=</span> df[<span class="st">'lp'</span>].cumsum()</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'lp_per'</span>] <span class="op">=</span> df[<span class="st">'lp'</span>] <span class="op">/</span> df[<span class="st">'lp'</span>].<span class="bu">sum</span>()</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'lp_cum_per'</span>] <span class="op">=</span> df[<span class="st">'lp_cum'</span>] <span class="op">/</span> df[<span class="st">'lp_cum'</span>].<span class="bu">max</span>()</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'left'</span>] <span class="op">=</span> df[<span class="st">'lp_cum_per'</span>] <span class="op">-</span> df[<span class="st">'lp_per'</span>]</span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter World partner</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'partner_iso'</span>] <span class="op">!=</span> <span class="st">'W00'</span>]</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Solving names</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'partner_iso'</span>] <span class="op">==</span> <span class="st">'HKG'</span>, <span class="st">'partner'</span>] <span class="op">=</span> <span class="st">'Hong Kong'</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'partner_iso'</span>] <span class="op">==</span> <span class="st">'TUR'</span>, <span class="st">'partner'</span>] <span class="op">=</span> <span class="st">'Turkey'</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'partner_iso'</span>] <span class="op">==</span> <span class="st">'KOR'</span>, <span class="st">'partner'</span>] <span class="op">=</span> <span class="st">'South Korea'</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'partner_iso'</span>] <span class="op">==</span> <span class="st">'FRO'</span>, <span class="st">'partner'</span>] <span class="op">=</span> <span class="st">'Faroe Islands'</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Visualization</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Font and style</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">'font.family'</span>: <span class="st">'sans-serif'</span>, <span class="st">'font.sans-serif'</span>: [<span class="st">'Franklin Gothic'</span>], <span class="st">'font.size'</span>: <span class="dv">9</span>})</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"white"</span>, palette<span class="op">=</span><span class="st">"muted"</span>)</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Create figure</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Visualization</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co"># ================================================</span></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Font and style</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">'font.family'</span>: <span class="st">'sans-serif'</span>, <span class="st">'font.sans-serif'</span>: [<span class="st">'Franklin Gothic'</span>], <span class="st">'font.size'</span>: <span class="dv">9</span>})</span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"white"</span>, palette<span class="op">=</span><span class="st">"muted"</span>)</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Create figure</span></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Barplot</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> sns.barplot(</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>df,</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'partner'</span>,</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'value'</span>,</span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'goldenrod'</span>,</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>    orient<span class="op">=</span><span class="st">'h'</span></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and subtitle</span></span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>fig.add_artist(plt.Line2D([<span class="fl">0.155</span>, <span class="fl">0.155</span>], [<span class="fl">0.87</span>, <span class="fl">0.97</span>], linewidth<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span><span class="st">'#203764'</span>, solid_capstyle<span class="op">=</span><span class="st">'butt'</span>))</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.13</span>, <span class="ss">f'Ghana Gold Exports'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.09</span>, <span class="ss">f'Leading gold importers from Ghana in 2024'</span>, fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.05</span>, <span class="ss">f'(exports in $US billions)'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="co"># Axis labels and grid</span></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Exports (US$ billions)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">''</span>)</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>plt.xticks(</span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    ticks<span class="op">=</span>plt.xticks()[<span class="dv">0</span>],</span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>[<span class="ss">f'</span><span class="sc">{</span>tick <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.1f}</span><span class="ss">'</span> <span class="cf">for</span> tick <span class="kw">in</span> plt.xticks()[<span class="dv">0</span>]],</span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">9</span></span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>plt.yticks(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'x'</span>, linestyle<span class="op">=</span><span class="st">':'</span>, color<span class="op">=</span><span class="st">'gray'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove spines</span></span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.gca()</span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'bottom'</span>].set_linewidth(<span class="fl">0.5</span>)</span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'left'</span>].set_linewidth(<span class="fl">0.5</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a palette</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>palette <span class="op">=</span> sns.color_palette(<span class="st">"coolwarm"</span>, as_cmap<span class="op">=</span><span class="va">True</span>).<span class="bu">reversed</span>()</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>gdp_min <span class="op">=</span> <span class="op">-</span><span class="fl">0.05</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>gdp_max <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>norm <span class="op">=</span> plt.Normalize(gdp_min, gdp_max)</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> palette(norm(df[<span class="st">'gap'</span>]))</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Barplot</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> plt.bar(</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'left'</span>],</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'ngdpdpc'</span>],</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span>df[<span class="st">'lp_per'</span>],</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    align<span class="op">=</span><span class="st">'edge'</span>,</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    edgecolor<span class="op">=</span><span class="st">'grey'</span>,</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>colors,</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>    linewidth<span class="op">=</span><span class="fl">0.1</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and subtitle</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>fig.add_artist(plt.Line2D([<span class="fl">0.095</span>, <span class="fl">0.095</span>], [<span class="fl">0.87</span>, <span class="fl">0.97</span>], linewidth<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span><span class="st">'#203764'</span>, solid_capstyle<span class="op">=</span><span class="st">'butt'</span>))</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.13</span>, <span class="ss">f'The Power Imbalance in Gaza’s Conflict'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.09</span>, <span class="ss">f'Israel'</span><span class="st">'s economic superiority and its dominant power in the conflict'</span>, fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.05</span>, <span class="ss">f'(gross domestic product in $USD)'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove spines</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.gca()</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'bottom'</span>].<span class="bu">set</span>(color<span class="op">=</span><span class="st">'gray'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'left'</span>].set_linewidth(<span class="va">False</span>)</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, df[<span class="st">'lp_cum_per'</span>].<span class="bu">max</span>())</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([])</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">60</span>)</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_locator(ticker.MultipleLocator(<span class="dv">5</span>))</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'GDP per capita ($)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Population (M)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, labelpad<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>plt.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(<span class="kw">lambda</span> x, _: <span class="ss">f'</span><span class="sc">{</span><span class="bu">round</span>(x<span class="op">*</span><span class="dv">1000</span>, <span class="dv">1</span>)<span class="sc">:,.0f}</span><span class="ss">'</span>))</span>
 <span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a> <span class="co"># Add Year label</span></span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>formatted_date <span class="op">=</span> <span class="dv">2024</span> </span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">1</span>, <span class="fl">1.15</span>, <span class="ss">f'</span><span class="sc">{</span>formatted_date<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>ax.transAxes,</span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">22</span>, ha<span class="op">=</span><span class="st">'right'</span>, va<span class="op">=</span><span class="st">'top'</span>,</span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'#D3D3D3'</span>)</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="co"># Define flags</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>flag_urls <span class="op">=</span> {</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>    <span class="st">'PSE'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/PS.png'</span>,</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ISR'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/IL.png'</span></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="co"># Add value label for each bar</span></span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> container <span class="kw">in</span> bars.containers:</span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> bar <span class="kw">in</span> container:</span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>        width <span class="op">=</span> bar.get_width()</span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Format label</span></span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> width <span class="op">&lt;</span> <span class="fl">1e9</span>:</span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>            label <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>width <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss">M'</span>  <span class="co"># Milions</span></span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>            label <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>width <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.2f}</span><span class="ss">B'</span>  <span class="co"># Bilions</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="co"># Load flags once</span></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>flags <span class="op">=</span> {country: mpimg.imread(BytesIO(requests.get(url).content)) </span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>         <span class="cf">for</span> country, url <span class="kw">in</span> flag_urls.items()}</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="co"># For each bar, add the corresponding flag and country name</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> bar, iso3 <span class="kw">in</span> <span class="bu">zip</span>(bars, df[<span class="st">'iso3'</span>]):</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> iso3 <span class="kw">in</span> flags:</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>        img <span class="op">=</span> flags[iso3]</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>        imagebox <span class="op">=</span> OffsetImage(img, zoom<span class="op">=</span><span class="fl">0.04</span>)</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> bar.get_x() <span class="op">+</span> bar.get_width() <span class="op">/</span> <span class="dv">2</span></span>
 <span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>        plt.text(width <span class="op">+</span> (<span class="fl">0.025e9</span>) <span class="op">*</span> <span class="dv">6</span>,</span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>                 bar.get_y() <span class="op">+</span> bar.get_height() <span class="op">/</span> <span class="dv">2</span>,</span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>                 label,</span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>                 va<span class="op">=</span><span class="st">'center'</span>, ha<span class="op">=</span><span class="st">'left'</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="co"># Define flags</span></span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>flag_urls <span class="op">=</span> {</span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>    <span class="st">'CHE'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/CH.png'</span>,</span>
-<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ARE'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/AE.png'</span>,</span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ZAF'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/ZA.png'</span>,</span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>    <span class="st">'IND'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/IN.png'</span>,</span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TUR'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/TR.png'</span>,</span>
-<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>    <span class="st">'HKG'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/HK.png'</span>,</span>
-<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>    <span class="st">'KOR'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/KR.png'</span>,</span>
-<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>    <span class="st">'CHN'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/CN.png'</span>,</span>
-<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a>    <span class="st">'DEU'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/DE.png'</span>,</span>
-<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>    <span class="st">'FRO'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/FO.png'</span>,</span>
-<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>    <span class="st">'SGP'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/SG.png'</span></span>
-<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="co"># Load flags</span></span>
-<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>flags <span class="op">=</span> {country: mpimg.imread(BytesIO(requests.get(url).content)) <span class="cf">for</span> country, url <span class="kw">in</span> flag_urls.items()}</span>
-<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="co"># Add flags with AnnotationBbox and OffsetImage</span></span>
-<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> partner_iso, bar <span class="kw">in</span> <span class="bu">zip</span>(df[<span class="st">'partner_iso'</span>], bars.patches):</span>
-<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> partner_iso <span class="kw">in</span> flags:</span>
-<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>        img <span class="op">=</span> flags[partner_iso]</span>
-<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>        imagebox <span class="op">=</span> OffsetImage(img, zoom<span class="op">=</span><span class="fl">0.03</span>)</span>
-<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> bar.get_width() <span class="op">+</span> <span class="fl">0.03e9</span></span>
-<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> bar.get_y() <span class="op">+</span> bar.get_height()<span class="op">/</span><span class="dv">2</span></span>
-<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>        ab <span class="op">=</span> AnnotationBbox(imagebox, (x, y), frameon<span class="op">=</span><span class="va">False</span>, box_alignment<span class="op">=</span>(<span class="dv">0</span>,<span class="fl">0.5</span>), pad<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>        ax.add_artist(ab)</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>        offset <span class="op">=</span> <span class="fl">1.5</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>        text_offset <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Positioning logic</span></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> bar.get_height() <span class="op">&gt;=</span> <span class="dv">0</span>:</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>            y_flag <span class="op">=</span> bar.get_height() <span class="op">+</span> offset</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>            box_align <span class="op">=</span> (<span class="fl">0.5</span>, <span class="dv">0</span>)</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>            text_y <span class="op">=</span> y_flag <span class="op">+</span> text_offset</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>            va_text <span class="op">=</span> <span class="st">'bottom'</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>            y_flag <span class="op">=</span> bar.get_height() <span class="op">-</span> offset</span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>            box_align <span class="op">=</span> (<span class="fl">0.5</span>, <span class="dv">1</span>)</span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>            text_y <span class="op">=</span> y_flag <span class="op">-</span> text_offset</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>            va_text <span class="op">=</span> <span class="st">'top'</span></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add flag</span></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>        ab <span class="op">=</span> AnnotationBbox(imagebox, (x, y_flag), frameon<span class="op">=</span><span class="va">False</span>, box_alignment<span class="op">=</span>box_align)</span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>        ax.add_artist(ab)</span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add country name</span></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>        country_name <span class="op">=</span> df.loc[df[<span class="st">'iso3'</span>] <span class="op">==</span> iso3, <span class="st">'country'</span>].values[<span class="dv">0</span>]</span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>        ax.text(x, text_y, country_name, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span>va_text, fontsize<span class="op">=</span><span class="dv">9</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'#404040'</span>)</span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add population</span></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>        population <span class="op">=</span> df.loc[df[<span class="st">'iso3'</span>] <span class="op">==</span> iso3, <span class="st">'lp'</span>].values[<span class="dv">0</span>]</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>        formatted_pop <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span><span class="bu">round</span>(population<span class="op">*</span><span class="dv">100</span>, <span class="dv">1</span>)<span class="sc">:,.0f}</span><span class="ss">'</span>.replace(<span class="st">','</span>, <span class="st">'.'</span>)</span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>        ax.text(x, <span class="op">-</span><span class="dv">1</span>, formatted_pop, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'top'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span><span class="st">"#000000"</span>)</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add country name</span></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> iso3 <span class="op">==</span> <span class="st">'ISR'</span>:</span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>            ax.text(x, text_y<span class="op">-</span><span class="dv">35</span>, <span class="st">"40-fold"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span>va_text, fontsize<span class="op">=</span><span class="dv">30</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">"#FFFFFF"</span>)</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>            ax.text(x, text_y<span class="op">-</span><span class="dv">38</span>, <span class="st">"Gross Domestic Product of Palestine"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span>va_text, fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">"#FFFFFF"</span>)</span>
 <span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Data Source</span></span>
-<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.15</span>, <span class="st">'Data Source:'</span>, </span>
-<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
-<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
-<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">23</span></span>
-<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.15</span>, space <span class="op">+</span> <span class="st">'UN Comtrade'</span>, </span>
-<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
-<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout</span></span>
-<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="co"># Save it...</span></span>
-<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a>download_folder <span class="op">=</span> os.path.join(os.path.expanduser(<span class="st">"~"</span>), <span class="st">"Downloads"</span>)</span>
-<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> os.path.join(download_folder, <span class="ss">f"FIG_COMT_Ghana_Gold_Exports"</span>)</span>
-<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>plt.savefig(filename, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
-<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="co"># Show :)</span></span>
-<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Year label</span></span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">1</span>, <span class="fl">1.15</span>, <span class="ss">f'</span><span class="sc">{</span>df[<span class="st">'year'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes,</span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">22</span>, ha<span class="op">=</span><span class="st">'right'</span>, va<span class="op">=</span><span class="st">'top'</span>,</span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'#D3D3D3'</span>,</span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>    bbox<span class="op">=</span><span class="bu">dict</span>(facecolor<span class="op">=</span><span class="st">'white'</span>, edgecolor<span class="op">=</span><span class="st">'none'</span>, boxstyle<span class="op">=</span><span class="st">'square,pad=0.3'</span>))</span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Data Source</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="st">'Data Source:'</span>,</span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">23</span></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.1</span>, space <span class="op">+</span> <span class="st">'World Bank (2024)'</span>, </span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout</span></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="co"># Save it...</span></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>max_year <span class="op">=</span> df[<span class="st">'year'</span>].<span class="bu">max</span>()</span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>download_folder <span class="op">=</span> os.path.join(os.path.expanduser(<span class="st">"~"</span>), <span class="st">"Downloads"</span>)</span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> os.path.join(download_folder, <span class="ss">f"FIG_WB_Israel_Dominance_</span><span class="sc">{</span>max_year<span class="sc">}</span><span class="ss">.png"</span>)</span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a>plt.savefig(filename, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="co"># Show :)</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p><a href="FIG_COMT_Ghana_Gold_Exports.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="FIG_COMT_Ghana_Gold_Exports.png" class="img-fluid" style="width:100.0%"></a></p>
-    <bluesky-comments post="at://did:plc:u7zijsa6hoysmuw2cr476odq/app.bsky.feed.post/3lejnowms6223" config="{&quot;filterEmptyReplies&quot;:true,&quot;mutePatterns&quot;:[&quot;📌&quot;,&quot;🔥&quot;,&quot;/i&quot;],&quot;muteUsers&quot;:[&quot;did:plc:1234abcd&quot;],&quot;visibleComments&quot;:3,&quot;visibleSubComments&quot;:3,&quot;visibleSubcomments&quot;:&quot;3&quot;}"></bluesky-comments>
-  
+<p><a href="FIG_WB_Israel_Dominance_2024.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="FIG_WB_Israel_Dominance_2024.png" class="img-fluid" style="width:100.0%"></a></p>
 
 
 </section>
