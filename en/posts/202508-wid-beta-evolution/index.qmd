@@ -33,15 +33,14 @@ The chart illustration the evolution of thel `wealth-income` ratio from 1980 to 
 #| warning: false
 # Libraries
 # ===================================================
+import os
 import requests
 import pandas as pd
-import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib.lines as mlines
-import matplotlib.patheffects as patheffects
-import matplotlib.font_manager as fm
 import matplotlib.image as mpimg
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+from matplotlib.ticker import FuncFormatter
 from io import BytesIO
 
 # Extract Data (Countries)
@@ -81,7 +80,7 @@ df = df[df['year'] >= 1980]
 df = df[df['Analytical'] == 'Advanced Economies']
 
 # Dataframe countries
-dfc = df[df['country'].isin(['CN', 'US', 'FR', 'DE', 'ES'])]
+dfc = df[df['country'].isin(['CN', 'US', 'DE', 'ES', 'JP', 'IN'])]
 
 # Select columns and order
 df = df[['year', 'country', 'country_name', 'beta']]
@@ -91,108 +90,133 @@ print(df)
 # Visualization Data
 # ===================================================
 # Font Style
-plt.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['Open Sans'], 'font.size': 10})
+plt.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['Franklin Gothic'], 'font.size': 9})
+sns.set(style="white", palette="muted")
 
 # Create color dictionaire 
-palette = {'CN': '#ffc2c2', 'US': '#c2d2ff', 'FR': '#c2ffcb', 'DE': '#e5c2ff', 'ES': '#fffac2'}
+palette = {'CN': '#C00000', 'US': '#153D64', 'IN': '#E97132', 'DE': '#3C7D22', 'ES': '#ECB100', 'JP': "#782170"}
 
 # Create line plots
-plt.figure(figsize=(12, 8))
-sns.lineplot(data=df, x='year', y='beta', hue='country', linewidth=0.3, alpha=0.5, palette=['gray'], legend=False)
-sns.lineplot(data=dfc, x='year', y='beta', hue='country', linewidth=2.25, palette=['black'], legend=False)
-sns.lineplot(data=dfc, x='year', y='beta', hue='country', linewidth=1.5, palette=palette, legend=False)
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.lineplot(data=df, x='year', y='beta', hue='country', linewidth=0.3, alpha=0.5, palette=["#A4A4A4"], legend=False, ax=ax)
+sns.lineplot(data=dfc, x='year', y='beta', hue='country', linewidth=1.5, palette=palette, legend=False, ax=ax)
+
+# Add title and subtitle
+fig.add_artist(plt.Line2D([0.12, 0.12], [0.86, 0.97], linewidth=6, color='#203764', solid_capstyle='butt'))
+plt.text(0.02, 1.14, f'Capital is back', fontsize=16, fontweight='bold', ha='left', transform=plt.gca().transAxes)
+plt.text(0.02, 1.09, f'Wealth-Income Ratios in Advanced Economies 1980-2023', fontsize=11, color='#262626', ha='left', transform=plt.gca().transAxes)
+plt.text(0.02, 1.05, f'(total wealth divided by annual income)', fontsize=9, color='#262626', ha='left', transform=plt.gca().transAxes)
 
 # Custom plot
-plt.text(0, 1.08, 'Capital is back', fontsize=16, fontweight='bold', ha='left', transform=plt.gca().transAxes)
-plt.text(0, 1.045, 'Wealth-Income Ratios in Advanced Economies 1980-2023', fontsize=11, color='#262626', ha='left', transform=plt.gca().transAxes)
-plt.xlabel('Year', fontsize=10, fontweight='bold')
-plt.ylabel('Wealth-Income Ratio', fontsize=10, fontweight='bold')
+plt.xlabel('')
+plt.ylabel('Wealth-Income Ratio (%)', fontsize=10, fontweight='bold')
+formatter = FuncFormatter(lambda y, _: '{:,.0f}%'.format(y * 100))
+plt.gca().yaxis.set_major_formatter(formatter)
 plt.grid(axis='x', alpha=0.7, linestyle=':')
 plt.ylim(0, 12)
 plt.xlim(1980, 2026)
 plt.xticks(range(1980, 2026, 10))
+plt.tick_params(axis='both', labelsize=9)
 plt.tight_layout()
 
 # Delete spines
-for spine in ["top", "right"]:
-    plt.gca().spines[spine].set_visible(False)
+ax = plt.gca()
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['bottom'].set(color='gray', linewidth=1)
+ax.spines['left'].set_linewidth(False)
 
 # Add Data Source
-plt.text(0, -0.08, 'Data Source: World Inequality Database (WID)', 
+plt.text(0, -0.12, 'Data Source:', 
     transform=plt.gca().transAxes, 
     fontsize=8,
     fontweight='bold',
     color='gray')
-
-# Add Notes
-plt.text(0, -0.1, 'Notes: Wealth-Income Ratio is the division of national wealth by national income.', 
+space = " " * 23
+plt.text(0, -0.12, space + 'World Inequality Database', 
     transform=plt.gca().transAxes, 
-    fontsize=7,
-    fontstyle='italic',
+    fontsize=8,
+    color='gray')
+
+# Add Data Source
+plt.text(0, -0.15, 'Notes:', 
+    transform=plt.gca().transAxes, 
+    fontsize=8,
+    fontweight='bold',
+    color='gray')
+space = " " * 12
+plt.text(0, -0.15, space + 'Wealth-Income Ratio is the division of national wealth by national income.', 
+    transform=plt.gca().transAxes, 
+    fontsize=8,
     color='gray')
 
  # Add Year label
 formatted_date = 2023
-plt.text(1, 1.08, f'{formatted_date}',
+plt.text(1.07, 1.15, f'{formatted_date}',
     transform=plt.gca().transAxes,
     fontsize=20, ha='right', va='top',
     fontweight='bold', color='#D3D3D3')
-
-# Legend values
-beta_cn = round(df[(df['country'] == 'CN') & (df['year'] == 2023)]['beta'].values[0], 1)
-beta_de = round(df[(df['country'] == 'DE') & (df['year'] == 2023)]['beta'].values[0], 1)
-beta_es = round(df[(df['country'] == 'ES') & (df['year'] == 2023)]['beta'].values[0], 1)
-beta_fr = round(df[(df['country'] == 'FR') & (df['year'] == 2023)]['beta'].values[0], 1)
-beta_us = round(df[(df['country'] == 'US') & (df['year'] == 2023)]['beta'].values[0], 1)
-
-# Legend lines
-line1 = mlines.Line2D([], [], color=palette['CN'], label=f'China: {beta_cn}', linewidth=2)
-line2 = mlines.Line2D([], [], color=palette['DE'], label=f'Germany: {beta_de}', linewidth=2)
-line3 = mlines.Line2D([], [], color=palette['ES'], label=f'Spain: {beta_es}', linewidth=2)
-line4 = mlines.Line2D([], [], color=palette['FR'], label=f'France: {beta_fr}', linewidth=2)
-line5 = mlines.Line2D([], [], color=palette['US'], label=f'USA: {beta_us}', linewidth=2)
-line6 = mlines.Line2D([], [], color='grey', label=f'Advanced economies', linewidth=1)
-line1.set_path_effects([patheffects.withStroke(linewidth=4, foreground='black')])
-line2.set_path_effects([patheffects.withStroke(linewidth=4, foreground='black')])
-line3.set_path_effects([patheffects.withStroke(linewidth=4, foreground='black')])
-line4.set_path_effects([patheffects.withStroke(linewidth=4, foreground='black')])
-line5.set_path_effects([patheffects.withStroke(linewidth=4, foreground='black')])
-
-# Legend plot
-plt.legend(handles=[line1, line2, line3, line4, line5, line6], title='Countries', fontsize=9, title_fontproperties=fm.FontProperties(weight='bold'))
 
 # Define flags
 flag_urls = {
     'CN': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/CN.png',
     'US': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/US.png',
-    'FR': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/FR.png',
     'ES': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/ES.png',
-    'DE': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/DE.png'
+    'DE': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/DE.png',
+    'JP': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/JP.png'
 }
-
-# Load flags
 flags = {country: mpimg.imread(BytesIO(requests.get(url).content)) for country, url in flag_urls.items()}
 
-# Add flags
-year = 2023
-# Adjust flags items
-for country, flag in flags.items():
-    # Find beta for each country
-    beta_value = df[(df['country'] == country) & (df['year'] == year)]['beta'].values[0]
-    
-    if country == 'CN':
-        plt.imshow(flag, aspect='auto', extent=[year+1, year+2, beta_value - 0.2, beta_value + 0.2], alpha=0.7)
-    elif country == 'DE':
-        plt.imshow(flag, aspect='auto', extent=[year+1, year+2, beta_value - 0.2, beta_value + 0.2], alpha=0.7)
-    elif country == 'ES':
-        plt.imshow(flag, aspect='auto', extent=[year+1, year+2, beta_value - 0.2, beta_value + 0.2], alpha=0.7)
-    elif country == 'FR':
-        plt.imshow(flag, aspect='auto', extent=[year+1, year+2, beta_value - 0.4, beta_value + 0], alpha=0.7)
-    elif country == 'US':
-        plt.imshow(flag, aspect='auto', extent=[year+1, year+2, beta_value - 0.4, beta_value + 0], alpha=0.7)
+# Custom offsets to move flags
+y_offsets = {
+    'ES': 0.1,
+    'FR': -0.1,
+    'US': -0.15,
+    'CN': 0.0,
+    'JP': 0.1
+}
 
-# Save the animation :)
-plt.savefig("C:/Users/guill/Downloads/FIG_WID_Beta_Evolution.png", dpi=300, bbox_inches='tight') 
+# Iterate over each country
+for country in dfc['country'].unique():
+    # Get country data
+    country_data = dfc[dfc['country'] == country]
+    last_point = country_data[country_data['year'] == country_data['year'].max()].iloc[0]
+    x = last_point['year']
+    y = last_point['beta'] + y_offsets.get(country, 0.0)
+    country_name = last_point['country_name']
+    value = last_point['beta'] * 100
+
+    # Add flag
+    flag_img = flags[country]
+    imagebox = OffsetImage(flag_img, zoom=0.021, resample=True, alpha=0.8)
+    ab = AnnotationBbox(imagebox, (x + 0.5, y), frameon=False, box_alignment=(0, 0.5))
+    ax.add_artist(ab)
+
+    # Add country name
+    name_x = x + 2
+    text_name = ax.text(name_x, y, country_name,
+                        fontsize=8, va='center', ha='left', color=palette[country])
+
+    # Canvas to measure large text, Get bbox name texto (px), Convert bbox to coordenates
+    fig.canvas.draw()
+    bbox_name = text_name.get_window_extent()
+    inv = ax.transData.inverted()
+    bbox_data = inv.transform([(bbox_name.x0, bbox_name.y0), (bbox_name.x1, bbox_name.y1)])
+    width_data = bbox_data[1][0] - bbox_data[0][0]
+
+    # Position beta after name
+    label_x = name_x + width_data + 0.5
+    label = f"({value:,.0f}%)"
+    ax.text(label_x, y, label,
+            fontsize=8, va='center', ha='left', fontweight='bold', color=palette[country])
+    
+# Adjust layout
+plt.tight_layout()
+
+# Save it...
+download_folder = os.path.join(os.path.expanduser("~"), "Downloads")
+filename = os.path.join(download_folder, f"FIG_WID_Beta_Evolution")
+plt.savefig(filename, dpi=300, bbox_inches='tight')
 
 # Show plot
 plt.show()

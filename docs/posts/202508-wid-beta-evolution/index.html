@@ -229,174 +229,202 @@ gtag('config', 'G-GJVKVH4E2Y', { 'anonymize_ip': true});
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <p>The chart illustration the evolution of thel <code>wealth-income</code> ratio from 1980 to 2023 highlights the interplay between wealth accumulation and income generation over last five decades. It reveals a clear upward trend, reflecting the disproportionate growth of wealth relative to income, particularly in recent decades. This relationship is largely determined by the growth of the economy relative to the growth of capital. When capital grows at a faster rate than the economy, wealth concentrates disproportionately, amplifying disparities and altering the balance of economic power.</p>
-<div id="415c0f43" class="cell">
+<div id="e5d63384" class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Libraries</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.lines <span class="im">as</span> mlines</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.patheffects <span class="im">as</span> patheffects</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.font_manager <span class="im">as</span> fm</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.image <span class="im">as</span> mpimg</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Data (Countries)</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract JSON to dataframe</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://raw.githubusercontent.com/guillemmaya92/world_map/main/Dim_Country.json'</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> response.json()</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame.from_dict(data, orient<span class="op">=</span><span class="st">'index'</span>).reset_index()</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>df_countries <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">'index'</span>: <span class="st">'ISO3'</span>})</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Data (WID)</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract PARQUET to dataframe</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/guillemmaya92/Analytics/master/Data/WID_Values.parquet"</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_parquet(url, engine<span class="op">=</span><span class="st">"pyarrow"</span>)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform Data</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter nulls and countries</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'wiratio'</span>].notna()]</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.merge(df, df_countries, left_on<span class="op">=</span><span class="st">'country'</span>, right_on<span class="op">=</span><span class="st">'ISO2'</span>, how<span class="op">=</span><span class="st">'inner'</span>)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename columns</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.rename(</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        columns<span class="op">=</span>{</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Country_Abr'</span>: <span class="st">'country_name'</span>,</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>            <span class="st">'wiratio'</span>: <span class="st">'beta'</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter countries have data post 1980</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>dfx <span class="op">=</span> df.loc[df[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">1980</span>, <span class="st">'country'</span>]</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'country'</span>].isin(dfx)]</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'year'</span>] <span class="op">&gt;=</span> <span class="dv">1980</span>]</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'Analytical'</span>] <span class="op">==</span> <span class="st">'Advanced Economies'</span>]</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataframe countries</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>dfc <span class="op">=</span> df[df[<span class="st">'country'</span>].isin([<span class="st">'CN'</span>, <span class="st">'US'</span>, <span class="st">'FR'</span>, <span class="st">'DE'</span>, <span class="st">'ES'</span>])]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.lines <span class="im">as</span> mlines</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.patheffects <span class="im">as</span> patheffects</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.font_manager <span class="im">as</span> fm</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.image <span class="im">as</span> mpimg</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.offsetbox <span class="im">import</span> OffsetImage, AnnotationBbox</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.ticker <span class="im">import</span> FuncFormatter</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Data (Countries)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract JSON to dataframe</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://raw.githubusercontent.com/guillemmaya92/world_map/main/Dim_Country.json'</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> response.json()</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame.from_dict(data, orient<span class="op">=</span><span class="st">'index'</span>).reset_index()</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>df_countries <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">'index'</span>: <span class="st">'ISO3'</span>})</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Data (WID)</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract PARQUET to dataframe</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/guillemmaya92/Analytics/master/Data/WID_Values.parquet"</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_parquet(url, engine<span class="op">=</span><span class="st">"pyarrow"</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform Data</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter nulls and countries</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'wiratio'</span>].notna()]</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.merge(df, df_countries, left_on<span class="op">=</span><span class="st">'country'</span>, right_on<span class="op">=</span><span class="st">'ISO2'</span>, how<span class="op">=</span><span class="st">'inner'</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename columns</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.rename(</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        columns<span class="op">=</span>{</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Country_Abr'</span>: <span class="st">'country_name'</span>,</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>            <span class="st">'wiratio'</span>: <span class="st">'beta'</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter countries have data post 1980</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>dfx <span class="op">=</span> df.loc[df[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">1980</span>, <span class="st">'country'</span>]</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'country'</span>].isin(dfx)]</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'year'</span>] <span class="op">&gt;=</span> <span class="dv">1980</span>]</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'Analytical'</span>] <span class="op">==</span> <span class="st">'Advanced Economies'</span>]</span>
 <span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Select columns and order</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">'year'</span>, <span class="st">'country'</span>, <span class="st">'country_name'</span>, <span class="st">'beta'</span>]]</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataframe countries</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>dfc <span class="op">=</span> df[df[<span class="st">'country'</span>].isin([<span class="st">'CN'</span>, <span class="st">'US'</span>, <span class="st">'DE'</span>, <span class="st">'ES'</span>, <span class="st">'JP'</span>, <span class="st">'IN'</span>])]</span>
 <span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization Data</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Font Style</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">'font.family'</span>: <span class="st">'sans-serif'</span>, <span class="st">'font.sans-serif'</span>: [<span class="st">'Open Sans'</span>], <span class="st">'font.size'</span>: <span class="dv">10</span>})</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Create color dictionaire </span></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>palette <span class="op">=</span> {<span class="st">'CN'</span>: <span class="st">'#ffc2c2'</span>, <span class="st">'US'</span>: <span class="st">'#c2d2ff'</span>, <span class="st">'FR'</span>: <span class="st">'#c2ffcb'</span>, <span class="st">'DE'</span>: <span class="st">'#e5c2ff'</span>, <span class="st">'ES'</span>: <span class="st">'#fffac2'</span>}</span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Create line plots</span></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'year'</span>, y<span class="op">=</span><span class="st">'beta'</span>, hue<span class="op">=</span><span class="st">'country'</span>, linewidth<span class="op">=</span><span class="fl">0.3</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, palette<span class="op">=</span>[<span class="st">'gray'</span>], legend<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>dfc, x<span class="op">=</span><span class="st">'year'</span>, y<span class="op">=</span><span class="st">'beta'</span>, hue<span class="op">=</span><span class="st">'country'</span>, linewidth<span class="op">=</span><span class="fl">2.25</span>, palette<span class="op">=</span>[<span class="st">'black'</span>], legend<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>dfc, x<span class="op">=</span><span class="st">'year'</span>, y<span class="op">=</span><span class="st">'beta'</span>, hue<span class="op">=</span><span class="st">'country'</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>, palette<span class="op">=</span>palette, legend<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom plot</span></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="fl">1.08</span>, <span class="st">'Capital is back'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="fl">1.045</span>, <span class="st">'Wealth-Income Ratios in Advanced Economies 1980-2023'</span>, fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Year'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Wealth-Income Ratio'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'x'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, linestyle<span class="op">=</span><span class="st">':'</span>)</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">1980</span>, <span class="dv">2026</span>)</span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>plt.xticks(<span class="bu">range</span>(<span class="dv">1980</span>, <span class="dv">2026</span>, <span class="dv">10</span>))</span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Delete spines</span></span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> spine <span class="kw">in</span> [<span class="st">"top"</span>, <span class="st">"right"</span>]:</span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>    plt.gca().spines[spine].set_visible(<span class="va">False</span>)</span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Data Source</span></span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.08</span>, <span class="st">'Data Source: World Inequality Database (WID)'</span>, </span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Notes</span></span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="st">'Notes: Wealth-Income Ratio is the division of national wealth by national income.'</span>, </span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">7</span>,</span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>    fontstyle<span class="op">=</span><span class="st">'italic'</span>,</span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a> <span class="co"># Add Year label</span></span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>formatted_date <span class="op">=</span> <span class="dv">2023</span></span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">1</span>, <span class="fl">1.08</span>, <span class="ss">f'</span><span class="sc">{</span>formatted_date<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes,</span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">20</span>, ha<span class="op">=</span><span class="st">'right'</span>, va<span class="op">=</span><span class="st">'top'</span>,</span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'#D3D3D3'</span>)</span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="co"># Legend values</span></span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>beta_cn <span class="op">=</span> <span class="bu">round</span>(df[(df[<span class="st">'country'</span>] <span class="op">==</span> <span class="st">'CN'</span>) <span class="op">&amp;</span> (df[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">2023</span>)][<span class="st">'beta'</span>].values[<span class="dv">0</span>], <span class="dv">1</span>)</span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>beta_de <span class="op">=</span> <span class="bu">round</span>(df[(df[<span class="st">'country'</span>] <span class="op">==</span> <span class="st">'DE'</span>) <span class="op">&amp;</span> (df[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">2023</span>)][<span class="st">'beta'</span>].values[<span class="dv">0</span>], <span class="dv">1</span>)</span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>beta_es <span class="op">=</span> <span class="bu">round</span>(df[(df[<span class="st">'country'</span>] <span class="op">==</span> <span class="st">'ES'</span>) <span class="op">&amp;</span> (df[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">2023</span>)][<span class="st">'beta'</span>].values[<span class="dv">0</span>], <span class="dv">1</span>)</span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>beta_fr <span class="op">=</span> <span class="bu">round</span>(df[(df[<span class="st">'country'</span>] <span class="op">==</span> <span class="st">'FR'</span>) <span class="op">&amp;</span> (df[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">2023</span>)][<span class="st">'beta'</span>].values[<span class="dv">0</span>], <span class="dv">1</span>)</span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>beta_us <span class="op">=</span> <span class="bu">round</span>(df[(df[<span class="st">'country'</span>] <span class="op">==</span> <span class="st">'US'</span>) <span class="op">&amp;</span> (df[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">2023</span>)][<span class="st">'beta'</span>].values[<span class="dv">0</span>], <span class="dv">1</span>)</span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="co"># Legend lines</span></span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>line1 <span class="op">=</span> mlines.Line2D([], [], color<span class="op">=</span>palette[<span class="st">'CN'</span>], label<span class="op">=</span><span class="ss">f'China: </span><span class="sc">{</span>beta_cn<span class="sc">}</span><span class="ss">'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>line2 <span class="op">=</span> mlines.Line2D([], [], color<span class="op">=</span>palette[<span class="st">'DE'</span>], label<span class="op">=</span><span class="ss">f'Germany: </span><span class="sc">{</span>beta_de<span class="sc">}</span><span class="ss">'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>line3 <span class="op">=</span> mlines.Line2D([], [], color<span class="op">=</span>palette[<span class="st">'ES'</span>], label<span class="op">=</span><span class="ss">f'Spain: </span><span class="sc">{</span>beta_es<span class="sc">}</span><span class="ss">'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>line4 <span class="op">=</span> mlines.Line2D([], [], color<span class="op">=</span>palette[<span class="st">'FR'</span>], label<span class="op">=</span><span class="ss">f'France: </span><span class="sc">{</span>beta_fr<span class="sc">}</span><span class="ss">'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>line5 <span class="op">=</span> mlines.Line2D([], [], color<span class="op">=</span>palette[<span class="st">'US'</span>], label<span class="op">=</span><span class="ss">f'USA: </span><span class="sc">{</span>beta_us<span class="sc">}</span><span class="ss">'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>line6 <span class="op">=</span> mlines.Line2D([], [], color<span class="op">=</span><span class="st">'grey'</span>, label<span class="op">=</span><span class="ss">f'Advanced economies'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>line1.set_path_effects([patheffects.withStroke(linewidth<span class="op">=</span><span class="dv">4</span>, foreground<span class="op">=</span><span class="st">'black'</span>)])</span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>line2.set_path_effects([patheffects.withStroke(linewidth<span class="op">=</span><span class="dv">4</span>, foreground<span class="op">=</span><span class="st">'black'</span>)])</span>
-<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>line3.set_path_effects([patheffects.withStroke(linewidth<span class="op">=</span><span class="dv">4</span>, foreground<span class="op">=</span><span class="st">'black'</span>)])</span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>line4.set_path_effects([patheffects.withStroke(linewidth<span class="op">=</span><span class="dv">4</span>, foreground<span class="op">=</span><span class="st">'black'</span>)])</span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>line5.set_path_effects([patheffects.withStroke(linewidth<span class="op">=</span><span class="dv">4</span>, foreground<span class="op">=</span><span class="st">'black'</span>)])</span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="co"># Legend plot</span></span>
-<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>plt.legend(handles<span class="op">=</span>[line1, line2, line3, line4, line5, line6], title<span class="op">=</span><span class="st">'Countries'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, title_fontproperties<span class="op">=</span>fm.FontProperties(weight<span class="op">=</span><span class="st">'bold'</span>))</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Select columns and order</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">'year'</span>, <span class="st">'country'</span>, <span class="st">'country_name'</span>, <span class="st">'beta'</span>]]</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization Data</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Font Style</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">'font.family'</span>: <span class="st">'sans-serif'</span>, <span class="st">'font.sans-serif'</span>: [<span class="st">'Franklin Gothic'</span>], <span class="st">'font.size'</span>: <span class="dv">9</span>})</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"white"</span>, palette<span class="op">=</span><span class="st">"muted"</span>)</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Create color dictionaire </span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>palette <span class="op">=</span> {<span class="st">'CN'</span>: <span class="st">'#C00000'</span>, <span class="st">'US'</span>: <span class="st">'#153D64'</span>, <span class="st">'IN'</span>: <span class="st">'#E97132'</span>, <span class="st">'DE'</span>: <span class="st">'#3C7D22'</span>, <span class="st">'ES'</span>: <span class="st">'#ECB100'</span>, <span class="st">'JP'</span>: <span class="st">"#782170"</span>}</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Create line plots</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'year'</span>, y<span class="op">=</span><span class="st">'beta'</span>, hue<span class="op">=</span><span class="st">'country'</span>, linewidth<span class="op">=</span><span class="fl">0.3</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, palette<span class="op">=</span>[<span class="st">"#A4A4A4"</span>], legend<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>dfc, x<span class="op">=</span><span class="st">'year'</span>, y<span class="op">=</span><span class="st">'beta'</span>, hue<span class="op">=</span><span class="st">'country'</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>, palette<span class="op">=</span>palette, legend<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and subtitle</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>fig.add_artist(plt.Line2D([<span class="fl">0.12</span>, <span class="fl">0.12</span>], [<span class="fl">0.86</span>, <span class="fl">0.97</span>], linewidth<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span><span class="st">'#203764'</span>, solid_capstyle<span class="op">=</span><span class="st">'butt'</span>))</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.14</span>, <span class="ss">f'Capital is back'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.09</span>, <span class="ss">f'Wealth-Income Ratios in Advanced Economies 1980-2023'</span>, fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.05</span>, <span class="ss">f'(annual income divided by total wealth)'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom plot</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">''</span>)</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Wealth-Income Ratio (%)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>formatter <span class="op">=</span> FuncFormatter(<span class="kw">lambda</span> y, _: <span class="st">'</span><span class="sc">{:,.0f}</span><span class="st">%'</span>.<span class="bu">format</span>(y <span class="op">*</span> <span class="dv">100</span>))</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>plt.gca().yaxis.set_major_formatter(formatter)</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'x'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, linestyle<span class="op">=</span><span class="st">':'</span>)</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">1980</span>, <span class="dv">2026</span>)</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>plt.xticks(<span class="bu">range</span>(<span class="dv">1980</span>, <span class="dv">2026</span>, <span class="dv">10</span>))</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>plt.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, labelsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="co"># Delete spines</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.gca()</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'bottom'</span>].<span class="bu">set</span>(color<span class="op">=</span><span class="st">'gray'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'left'</span>].set_linewidth(<span class="va">False</span>)</span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Data Source</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.12</span>, <span class="st">'Data Source:'</span>, </span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">23</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.12</span>, space <span class="op">+</span> <span class="st">'World Inequality Database'</span>, </span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Data Source</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.15</span>, <span class="st">'Notes:'</span>, </span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">12</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.15</span>, space <span class="op">+</span> <span class="st">'Wealth-Income Ratio is the division of national wealth by national income.'</span>, </span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a> <span class="co"># Add Year label</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>formatted_date <span class="op">=</span> <span class="dv">2023</span></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">1.07</span>, <span class="fl">1.15</span>, <span class="ss">f'</span><span class="sc">{</span>formatted_date<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes,</span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">20</span>, ha<span class="op">=</span><span class="st">'right'</span>, va<span class="op">=</span><span class="st">'top'</span>,</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'#D3D3D3'</span>)</span>
 <span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="co"># Define flags</span></span>
 <span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>flag_urls <span class="op">=</span> {</span>
 <span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>    <span class="st">'CN'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/CN.png'</span>,</span>
 <span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>    <span class="st">'US'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/US.png'</span>,</span>
-<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>    <span class="st">'FR'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/FR.png'</span>,</span>
-<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ES'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/ES.png'</span>,</span>
-<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>    <span class="st">'DE'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/DE.png'</span></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ES'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/ES.png'</span>,</span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>    <span class="st">'DE'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/DE.png'</span>,</span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>    <span class="st">'JP'</span>: <span class="st">'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/JP.png'</span></span>
 <span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="co"># Load flags</span></span>
-<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>flags <span class="op">=</span> {country: mpimg.imread(BytesIO(requests.get(url).content)) <span class="cf">for</span> country, url <span class="kw">in</span> flag_urls.items()}</span>
-<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Add flags</span></span>
-<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>year <span class="op">=</span> <span class="dv">2023</span></span>
-<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust flags items</span></span>
-<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> country, flag <span class="kw">in</span> flags.items():</span>
-<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find beta for each country</span></span>
-<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>    beta_value <span class="op">=</span> df[(df[<span class="st">'country'</span>] <span class="op">==</span> country) <span class="op">&amp;</span> (df[<span class="st">'year'</span>] <span class="op">==</span> year)][<span class="st">'beta'</span>].values[<span class="dv">0</span>]</span>
-<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> country <span class="op">==</span> <span class="st">'CN'</span>:</span>
-<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>        plt.imshow(flag, aspect<span class="op">=</span><span class="st">'auto'</span>, extent<span class="op">=</span>[year<span class="op">+</span><span class="dv">1</span>, year<span class="op">+</span><span class="dv">2</span>, beta_value <span class="op">-</span> <span class="fl">0.2</span>, beta_value <span class="op">+</span> <span class="fl">0.2</span>], alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> country <span class="op">==</span> <span class="st">'DE'</span>:</span>
-<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>        plt.imshow(flag, aspect<span class="op">=</span><span class="st">'auto'</span>, extent<span class="op">=</span>[year<span class="op">+</span><span class="dv">1</span>, year<span class="op">+</span><span class="dv">2</span>, beta_value <span class="op">-</span> <span class="fl">0.2</span>, beta_value <span class="op">+</span> <span class="fl">0.2</span>], alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> country <span class="op">==</span> <span class="st">'ES'</span>:</span>
-<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a>        plt.imshow(flag, aspect<span class="op">=</span><span class="st">'auto'</span>, extent<span class="op">=</span>[year<span class="op">+</span><span class="dv">1</span>, year<span class="op">+</span><span class="dv">2</span>, beta_value <span class="op">-</span> <span class="fl">0.2</span>, beta_value <span class="op">+</span> <span class="fl">0.2</span>], alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> country <span class="op">==</span> <span class="st">'FR'</span>:</span>
-<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>        plt.imshow(flag, aspect<span class="op">=</span><span class="st">'auto'</span>, extent<span class="op">=</span>[year<span class="op">+</span><span class="dv">1</span>, year<span class="op">+</span><span class="dv">2</span>, beta_value <span class="op">-</span> <span class="fl">0.4</span>, beta_value <span class="op">+</span> <span class="dv">0</span>], alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> country <span class="op">==</span> <span class="st">'US'</span>:</span>
-<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>        plt.imshow(flag, aspect<span class="op">=</span><span class="st">'auto'</span>, extent<span class="op">=</span>[year<span class="op">+</span><span class="dv">1</span>, year<span class="op">+</span><span class="dv">2</span>, beta_value <span class="op">-</span> <span class="fl">0.4</span>, beta_value <span class="op">+</span> <span class="dv">0</span>], alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the animation :)</span></span>
-<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"C:/Users/guill/Downloads/FIG_WID_Beta_Evolution.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>) </span>
-<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="co"># Show plot</span></span>
-<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>flags <span class="op">=</span> {country: mpimg.imread(BytesIO(requests.get(url).content)) <span class="cf">for</span> country, url <span class="kw">in</span> flag_urls.items()}</span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom offsets to move flags</span></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>y_offsets <span class="op">=</span> {</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ES'</span>: <span class="fl">0.1</span>,</span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>    <span class="st">'FR'</span>: <span class="op">-</span><span class="fl">0.1</span>,</span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>    <span class="st">'US'</span>: <span class="op">-</span><span class="fl">0.15</span>,</span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>    <span class="st">'CN'</span>: <span class="fl">0.0</span>,</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>    <span class="st">'JP'</span>: <span class="fl">0.1</span></span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over each country</span></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> country <span class="kw">in</span> dfc[<span class="st">'country'</span>].unique():</span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get country data</span></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>    country_data <span class="op">=</span> dfc[dfc[<span class="st">'country'</span>] <span class="op">==</span> country]</span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>    last_point <span class="op">=</span> country_data[country_data[<span class="st">'year'</span>] <span class="op">==</span> country_data[<span class="st">'year'</span>].<span class="bu">max</span>()].iloc[<span class="dv">0</span>]</span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> last_point[<span class="st">'year'</span>]</span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> last_point[<span class="st">'beta'</span>] <span class="op">+</span> y_offsets.get(country, <span class="fl">0.0</span>)</span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>    country_name <span class="op">=</span> last_point[<span class="st">'country_name'</span>]</span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>    value <span class="op">=</span> last_point[<span class="st">'beta'</span>] <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add flag</span></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>    flag_img <span class="op">=</span> flags[country]</span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>    imagebox <span class="op">=</span> OffsetImage(flag_img, zoom<span class="op">=</span><span class="fl">0.021</span>, resample<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>    ab <span class="op">=</span> AnnotationBbox(imagebox, (x <span class="op">+</span> <span class="fl">0.5</span>, y), frameon<span class="op">=</span><span class="va">False</span>, box_alignment<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">0.5</span>))</span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>    ax.add_artist(ab)</span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add country name</span></span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>    name_x <span class="op">=</span> x <span class="op">+</span> <span class="dv">2</span></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a>    text_name <span class="op">=</span> ax.text(name_x, y, country_name,</span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>                        fontsize<span class="op">=</span><span class="dv">8</span>, va<span class="op">=</span><span class="st">'center'</span>, ha<span class="op">=</span><span class="st">'left'</span>, color<span class="op">=</span>palette[country])</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Canvas to measure large text, Get bbox name texto (px), Convert bbox to coordenates</span></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>    fig.canvas.draw()</span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>    bbox_name <span class="op">=</span> text_name.get_window_extent()</span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a>    inv <span class="op">=</span> ax.transData.inverted()</span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a>    bbox_data <span class="op">=</span> inv.transform([(bbox_name.x0, bbox_name.y0), (bbox_name.x1, bbox_name.y1)])</span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a>    width_data <span class="op">=</span> bbox_data[<span class="dv">1</span>][<span class="dv">0</span>] <span class="op">-</span> bbox_data[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Position beta after name</span></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>    label_x <span class="op">=</span> name_x <span class="op">+</span> width_data <span class="op">+</span> <span class="fl">0.5</span></span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a>    label <span class="op">=</span> <span class="ss">f"(</span><span class="sc">{</span>value<span class="sc">:,.0f}</span><span class="ss">%)"</span></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>    ax.text(label_x, y, label,</span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a>            fontsize<span class="op">=</span><span class="dv">8</span>, va<span class="op">=</span><span class="st">'center'</span>, ha<span class="op">=</span><span class="st">'left'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span>palette[country])</span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="co"># Save it...</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>download_folder <span class="op">=</span> os.path.join(os.path.expanduser(<span class="st">"~"</span>), <span class="st">"Downloads"</span>)</span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> os.path.join(download_folder, <span class="ss">f"FIG_WID_Beta_Evolution"</span>)</span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>plt.savefig(filename, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="co"># Show plot</span></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p><a href="FIG_WID_Beta_Evolution.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="FIG_WID_Beta_Evolution.png" class="img-fluid" style="width:100.0%"></a></p>
