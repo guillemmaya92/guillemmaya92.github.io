@@ -129,7 +129,7 @@ ax.set_xlabel('')
 # Set y-axis limits and labels
 ax.set_ylabel('Dependency rate (%)', fontsize=10)
 ax.tick_params(axis='y', labelsize=9)
-ax.grid(axis='x', linestyle=':', color='gray', alpha=0.7, linewidth=0.5)
+ax.grid(axis='y', linestyle=':', color='gray', alpha=0.7, linewidth=0.25)
 
 # Remove spines and legend
 ax = plt.gca()
