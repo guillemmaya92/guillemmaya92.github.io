@@ -26,6 +26,195 @@ format:
 
 The graphic shows the disproportionate and asymmetrical nature of the Gaza conflict, contrasting Israel’s military and economic strengths with Gaza’s more limited resources and vulnerable population.
 
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: false
+#| warning: false
+# Libraries
+# =====================================================================
+import os
+from io import BytesIO
+import requests
+import wbgapi as wb
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import matplotlib.ticker as ticker
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+
+# Data Extraction (Countries)
+# =====================================================================
+# Crear el DataFrame
+data = {
+    'year': ['2024', '2024'],
+    'iso3': ['PSE', 'ISR'],
+    'country': ['Palestine', 'Israel'],
+    'ngdpdpc': [2.592, 54.176],
+    'lp': [5.3, 10] 
+}
+
+df = pd.DataFrame(data)
+df['ngdpd'] = df['ngdpdpc'] * df['lp']
+
+# Data Manipulation
+# =====================================================================
+# Add calculated fields
+df['lp_percent'] = df['lp'] / df['lp'].sum()
+df['ngdpd_percent'] = df['ngdpd'] / df['ngdpd'].sum()
+df['gap'] = df['ngdpd_percent'] - df['lp_percent']
+
+# Ordenar por gap
+df = df.sort_values(by='gap', ascending=True)
+
+# Calculate cumulative and left positions
+df['lp_cum'] = df['lp'].cumsum()
+df['lp_per'] = df['lp'] / df['lp'].sum()
+df['lp_cum_per'] = df['lp_cum'] / df['lp_cum'].max()
+df['left'] = df['lp_cum_per'] - df['lp_per']
+
+print(df)
+
+# Data Visualization
+# =====================================================================
+# Font and style
+plt.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['Franklin Gothic'], 'font.size': 9})
+sns.set(style="white", palette="muted")
+
+# Create figure
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Create a palette
+palette = sns.color_palette("coolwarm", as_cmap=True).reversed()
+gdp_min = -0.05
+gdp_max = 0.05
+norm = plt.Normalize(gdp_min, gdp_max)
+colors = palette(norm(df['gap']))
+
+# Barplot
+bars = plt.bar(
+    df['left'],
+    df['ngdpdpc'],
+    width=df['lp_per'],
+    alpha=1,
+    align='edge',
+    edgecolor='grey',
+    color=colors,
+    linewidth=0.1
+)
+
+# Add title and subtitle
+fig.add_artist(plt.Line2D([0.095, 0.095], [0.87, 0.97], linewidth=6, color='#203764', solid_capstyle='butt'))
+plt.text(0.02, 1.13, f'The Power Imbalance in Gaza’s Conflict', fontsize=16, fontweight='bold', ha='left', transform=plt.gca().transAxes)
+plt.text(0.02, 1.09, f'Israel''s economic superiority and its dominant power in the conflict', fontsize=11, color='#262626', ha='left', transform=plt.gca().transAxes)
+plt.text(0.02, 1.05, f'(gross domestic product in $USD)', fontsize=9, color='#262626', ha='left', transform=plt.gca().transAxes)
+
+# Remove spines
+ax = plt.gca()
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['bottom'].set(color='gray', linewidth=1)
+ax.spines['left'].set_linewidth(False)
+
+# Configuration
+plt.xlim(0, df['lp_cum_per'].max())
+ax.set_xticks([])
+plt.ylim(0, 60)
+ax.yaxis.set_major_locator(ticker.MultipleLocator(5))
+plt.ylabel('GDP per capita ($)', fontsize=10, fontweight='bold')
+plt.xlabel('Population (M)', fontsize=10, fontweight='bold', labelpad=15)
+plt.tick_params(axis='y', labelsize=9)
+plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'{round(x*1000, 1):,.0f}'))
+
+# Define flags
+flag_urls = {
+    'PSE': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/PS.png',
+    'ISR': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/IL.png'
+
+}
+
+# Load flags once
+flags = {country: mpimg.imread(BytesIO(requests.get(url).content)) 
+         for country, url in flag_urls.items()}
+
+# For each bar, add the corresponding flag and country name
+for bar, iso3 in zip(bars, df['iso3']):
+    if iso3 in flags:
+        img = flags[iso3]
+        imagebox = OffsetImage(img, zoom=0.04)
+        x = bar.get_x() + bar.get_width() / 2
+
+        offset = 1.5
+        text_offset = 5
+
+        # Positioning logic
+        if bar.get_height() >= 0:
+            y_flag = bar.get_height() + offset
+            box_align = (0.5, 0)
+            text_y = y_flag + text_offset
+            va_text = 'bottom'
+        else:
+            y_flag = bar.get_height() - offset
+            box_align = (0.5, 1)
+            text_y = y_flag - text_offset
+            va_text = 'top'
+
+        # Add flag
+        ab = AnnotationBbox(imagebox, (x, y_flag), frameon=False, box_alignment=box_align)
+        ax.add_artist(ab)
+
+        # Add country name
+        country_name = df.loc[df['iso3'] == iso3, 'country'].values[0]
+        ax.text(x, text_y, country_name, ha='center', va=va_text, fontsize=9, fontweight='bold', color='#404040')
+        
+        # Add population
+        population = df.loc[df['iso3'] == iso3, 'lp'].values[0]
+        formatted_pop = f'{round(population*100, 1):,.0f}'.replace(',', '.')
+        ax.text(x, -1, formatted_pop, ha='center', va='top', fontsize=9, color="#000000")
+        
+        # Add country name
+        if iso3 == 'ISR':
+            ax.text(x, text_y-35, "40-fold", ha='center', va=va_text, fontsize=30, fontweight='bold', color="#FFFFFF")
+            ax.text(x, text_y-38, "Gross Domestic Product of Palestine", ha='center', va=va_text, fontsize=10, fontweight='bold', color="#FFFFFF")
+
+# Add Year label
+plt.text(1, 1.15, f'{df['year'].max()}',
+    transform=plt.gca().transAxes,
+    fontsize=22, ha='right', va='top',
+    fontweight='bold', color='#D3D3D3',
+    bbox=dict(facecolor='white', edgecolor='none', boxstyle='square,pad=0.3'))
+
+# Add Data Source
+plt.text(0, -0.1, 'Data Source:',
+    transform=plt.gca().transAxes, 
+    fontsize=8,
+    fontweight='bold',
+    color='gray')
+space = " " * 23
+plt.text(0, -0.1, space + 'World Bank (2024)', 
+    transform=plt.gca().transAxes, 
+    fontsize=8,
+    color='gray')
+
+# Adjust layout
+plt.tight_layout()
+
+# Save it...
+max_year = df['year'].max()
+download_folder = os.path.join(os.path.expanduser("~"), "Downloads")
+filename = os.path.join(download_folder, f"FIG_WB_Israel_Dominance_{max_year}.png")
+plt.savefig(filename, dpi=300, bbox_inches='tight')
+
+# Show :)
+plt.show()
+```
+
+![](FIG_WB_Israel_Dominance_2024.png){.lightbox width="100%"}
+
+
 ```{python}
 #| eval: false
 #| echo: true
