@@ -857,6 +857,377 @@ gtag('config', 'G-GJVKVH4E2Y', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+<div id="china-percentiles" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Libraries</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.dates <span class="im">as</span> mdates</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.ticker <span class="im">import</span> PercentFormatter</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Extraction</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Define CSV path</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="vs">r'C:\Users\guill\Downloads\wid_all_data\analyze'</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># List to save dataframe</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span> <span class="op">=</span> []</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over each file</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> archivo <span class="kw">in</span> os.listdir(path):</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> archivo.startswith(<span class="st">"WID_data_"</span>) <span class="kw">and</span> archivo.endswith(<span class="st">".csv"</span>):</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_csv(os.path.join(path, archivo), delimiter<span class="op">=</span><span class="st">';'</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">list</span>.append(df)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all dataframes and create a copy</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat(<span class="bu">list</span>, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter dataframes</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>country <span class="op">=</span> [<span class="st">'CN'</span>] <span class="co"># iso3</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>variable <span class="op">=</span> [<span class="st">'sdiincj992'</span>] <span class="co"># sdiincj992 / shwealj992</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>percentile <span class="op">=</span> [<span class="st">'p99p100'</span>, <span class="st">'p90p100'</span>, <span class="st">'p50p90'</span>, <span class="st">'p0p50'</span>]</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>year <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1978</span>, <span class="dv">2023</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[(df[<span class="st">'country'</span>].isin(country)) <span class="op">&amp;</span> df[<span class="st">'variable'</span>].isin(variable) <span class="op">&amp;</span> df[<span class="st">'percentile'</span>].isin(percentile) <span class="op">&amp;</span> df[<span class="st">'year'</span>].isin(year)]</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">'country'</span>, <span class="st">'percentile'</span>, <span class="st">'year'</span>, <span class="st">'value'</span>]]</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpolate monthly data (cubic)</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>dfs <span class="op">=</span> []</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> percentile <span class="kw">in</span> df[<span class="st">'percentile'</span>].unique():</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    temp_df <span class="op">=</span> df[df[<span class="st">'percentile'</span>] <span class="op">==</span> percentile].copy()</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    temp_df[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(temp_df[<span class="st">'year'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%Y'</span>)</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    temp_df <span class="op">=</span> temp_df[[<span class="st">'date'</span>, <span class="st">'value'</span>]]</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    temp_df <span class="op">=</span> temp_df.set_index(<span class="st">'date'</span>).resample(<span class="st">'D'</span>).mean().interpolate(method<span class="op">=</span><span class="st">'cubic'</span>).reset_index()</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    temp_df[<span class="st">'percentile'</span>] <span class="op">=</span> percentile</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    temp_df[<span class="st">'year'</span>] <span class="op">=</span> temp_df[<span class="st">'date'</span>].dt.year </span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    dfs.append(temp_df)</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat(dfs, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Formatting date</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'date'</span>])</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace percentile values</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>replace_dict <span class="op">=</span> {</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">'p99p100'</span>: <span class="st">'Top 1'</span>,</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    <span class="st">'p90p100'</span>: <span class="st">'Top 10'</span>,</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    <span class="st">'p50p90'</span>: <span class="st">'Middle 40'</span>,</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    <span class="st">'p0p50'</span>: <span class="st">'Bottom 50'</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'percentile'</span>] <span class="op">=</span> df[<span class="st">'percentile'</span>].replace(replace_dict)</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Visualization</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Font and style</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">'font.family'</span>: <span class="st">'sans-serif'</span>, <span class="st">'font.sans-serif'</span>: [<span class="st">'Franklin Gothic'</span>], <span class="st">'font.size'</span>: <span class="dv">9</span>})</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"white"</span>, palette<span class="op">=</span><span class="st">"muted"</span>)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Create figure</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Define custom color palette</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>palette <span class="op">=</span> {</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bottom 50"</span>: <span class="st">"#F15B4C"</span>,   <span class="co"># naranja</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Middle 40"</span>: <span class="st">"#537C78"</span>,  <span class="co"># verde</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Top 10"</span>: <span class="st">"#FAA41B"</span>,     <span class="co"># azul</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Top 1"</span>: <span class="st">"#FFD45B"</span>      <span class="co"># rojo</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Line plot</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'value'</span>, hue<span class="op">=</span><span class="st">'percentile'</span>, palette<span class="op">=</span>palette, legend<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and subtitle</span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>fig.add_artist(plt.Line2D([<span class="fl">0.1</span>, <span class="fl">0.1</span>], [<span class="fl">0.86</span>, <span class="fl">0.96</span>], linewidth<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span><span class="st">'#203764'</span>, solid_capstyle<span class="op">=</span><span class="st">'butt'</span>))</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.15</span>, <span class="ss">f'Share of Income in China'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.1</span>, <span class="ss">f'Distribution across percentiles from 1980 to 2022'</span>, fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.06</span>, <span class="ss">f'(percentage of total income held by percentile groups)'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="co"># Axis x-axis limits and labels</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(pd.to_datetime(<span class="st">"1980-01-01"</span>), pd.to_datetime(<span class="st">"2022-12-31"</span>))</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_locator(mdates.YearLocator(<span class="dv">10</span>))  </span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(mdates.DateFormatter(<span class="st">"%Y"</span>)) </span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">"x"</span>, labelsize<span class="op">=</span><span class="dv">9</span>) </span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">''</span>) </span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a><span class="co"># Set y-axis limits and labels</span></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Share of National Income (%)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">'y'</span>, linestyle<span class="op">=</span><span class="st">':'</span>, color<span class="op">=</span><span class="st">'gray'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, linewidth<span class="op">=</span><span class="fl">0.25</span>)</span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(PercentFormatter(xmax<span class="op">=</span><span class="dv">1</span>, decimals<span class="op">=</span><span class="dv">0</span>))</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove spines and legend</span></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.gca()</span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'bottom'</span>].set_linewidth(<span class="fl">0.5</span>)</span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'left'</span>].set_linewidth(<span class="fl">0.5</span>)</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="co"># Add percentages for each line at the end of the plot</span></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> percentile <span class="kw">in</span> df[<span class="st">'percentile'</span>].unique():</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter the last value for each percentile</span></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> df[df[<span class="st">'percentile'</span>] <span class="op">==</span> percentile]</span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>    last_value <span class="op">=</span> subset.iloc[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the text with bold percentage</span></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>    texto <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>last_value[<span class="st">'percentile'</span>]<span class="sc">}</span><span class="ss">: "</span> <span class="op">+</span> <span class="vs">r"$\bf{"</span> <span class="op">+</span> <span class="ss">f"</span><span class="sc">{</span>last_value[<span class="st">'value'</span>]<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">"</span> <span class="op">+</span> <span class="vs">r"\%}$"</span></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add annotation</span></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>    plt.annotate(texto, </span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>                 xy<span class="op">=</span>(last_value[<span class="st">'date'</span>], last_value[<span class="st">'value'</span>]), </span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a>                 xytext<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">0</span>),</span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>                 textcoords<span class="op">=</span><span class="st">'offset points'</span>, </span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>                 color<span class="op">=</span><span class="st">'black'</span>, </span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>                 fontsize<span class="op">=</span><span class="dv">8</span>, </span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>                 weight<span class="op">=</span><span class="st">'normal'</span>,</span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>                 va<span class="op">=</span><span class="st">'center'</span>,</span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>                 ha<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key, color <span class="kw">in</span> palette.items():</span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>    ax.plot([], [], color<span class="op">=</span>color, label<span class="op">=</span>key, linestyle<span class="op">=</span><span class="st">'-'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>ax.legend(</span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a>    loc<span class="op">=</span><span class="st">'lower center'</span>,</span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>    bbox_to_anchor<span class="op">=</span>(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.12</span>),</span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>    ncol<span class="op">=</span><span class="bu">len</span>(palette),</span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>    handlelength<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>    handleheight<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a>    borderpad<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>    columnspacing<span class="op">=</span><span class="fl">0.8</span></span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Data Source</span></span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.15</span>, <span class="st">'Data Source:'</span>, </span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">23</span></span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.15</span>, space <span class="op">+</span> <span class="st">'World Inequality Database (WID)'</span>, </span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Note</span></span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.18</span>, <span class="st">'Notes:'</span>, </span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">12</span></span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.18</span>, space <span class="op">+</span> <span class="st">'Post-tax national income is the sum of primary incomes over all sectors (private and public), minus taxes.'</span>,</span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout</span></span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a><span class="co"># Save it...</span></span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a>download_folder <span class="op">=</span> os.path.join(os.path.expanduser(<span class="st">"~"</span>), <span class="st">"Downloads"</span>)</span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> os.path.join(download_folder, <span class="ss">f"FIG_WID_China_Income_Percentiles"</span>)</span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a>plt.savefig(filename, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar el gráfico</span></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="1">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><a href="FIG_WID_China_Income_Percentiles.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="FIG_WID_China_Income_Percentiles.png" class="img-fluid"></a></p>
+</div>
+</div>
+</div>
+<div id="china-wealth-property" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Libraries</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.ticker <span class="im">as</span> mtick</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.lines <span class="im">import</span> Line2D</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Extraction</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Define CSV path</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="vs">r'C:\Users\guill\Downloads\wid_all_data\analyze'</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># List to save dataframe</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span> <span class="op">=</span> []</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over each file</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> archivo <span class="kw">in</span> os.listdir(path):</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> archivo.startswith(<span class="st">"WID_data_"</span>) <span class="kw">and</span> archivo.endswith(<span class="st">".csv"</span>):</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_csv(os.path.join(path, archivo), delimiter<span class="op">=</span><span class="st">';'</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">list</span>.append(df)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all dataframes and create a copy</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat(<span class="bu">list</span>, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter dataframes</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>country <span class="op">=</span> [<span class="st">'CN'</span>]</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>variable <span class="op">=</span> [<span class="st">'wwealhi999'</span>, <span class="st">'wwealgi999'</span>, <span class="st">'wwealni999'</span>]</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>percentile <span class="op">=</span> [<span class="st">'p0p100'</span>]</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>year <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1978</span>, <span class="dv">2023</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[(df[<span class="st">'country'</span>].isin(country)) <span class="op">&amp;</span> df[<span class="st">'variable'</span>].isin(variable) <span class="op">&amp;</span> df[<span class="st">'percentile'</span>].isin(percentile) <span class="op">&amp;</span> df[<span class="st">'year'</span>].isin(year)]</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">'country'</span>, <span class="st">'variable'</span>, <span class="st">'year'</span>, <span class="st">'value'</span>]]</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace values</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'variable'</span>] <span class="op">=</span> df[<span class="st">'variable'</span>].replace({</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wwealhi999'</span>: <span class="st">'private'</span>,</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wwealgi999'</span>: <span class="st">'public'</span>,</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wwealni999'</span>: <span class="st">'total'</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'variable'</span>] <span class="op">=</span> df[<span class="st">'variable'</span>] <span class="op">+</span> df[<span class="st">'country'</span>]</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpolate monthly data (cubic)</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>dfs <span class="op">=</span> []</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> variable <span class="kw">in</span> df[<span class="st">'variable'</span>].unique():</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    temp_df <span class="op">=</span> df[df[<span class="st">'variable'</span>] <span class="op">==</span> variable].copy()</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    temp_df[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(temp_df[<span class="st">'year'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%Y'</span>)</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    temp_df <span class="op">=</span> temp_df[[<span class="st">'date'</span>, <span class="st">'value'</span>]]</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    temp_df <span class="op">=</span> temp_df.set_index(<span class="st">'date'</span>).resample(<span class="st">'D'</span>).mean().interpolate(method<span class="op">=</span><span class="st">'cubic'</span>).reset_index()</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    temp_df[<span class="st">'variable'</span>] <span class="op">=</span> variable</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    temp_df[<span class="st">'year'</span>] <span class="op">=</span> temp_df[<span class="st">'date'</span>].dt.year </span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    dfs.append(temp_df)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat(dfs, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Formatting date</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'date'</span>])</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate detail and total</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>dfdetail <span class="op">=</span> df[df[<span class="st">'variable'</span>] <span class="op">!=</span> <span class="st">'totalCN'</span>].copy()</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>dftotal <span class="op">=</span> df[df[<span class="st">'variable'</span>] <span class="op">==</span> <span class="st">'totalCN'</span>].copy()</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Visualization</span></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================</span></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Font and style</span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">'font.family'</span>: <span class="st">'sans-serif'</span>, <span class="st">'font.sans-serif'</span>: [<span class="st">'Franklin Gothic'</span>], <span class="st">'font.size'</span>: <span class="dv">9</span>})</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"white"</span>, palette<span class="op">=</span><span class="st">"muted"</span>)</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Create figure</span></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot lines</span></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>dftotal, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'value'</span>, hue<span class="op">=</span><span class="st">'variable'</span>, legend<span class="op">=</span><span class="va">False</span>, palette<span class="op">=</span>[<span class="st">"#0D0D0D"</span>], linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>dfdetail, x<span class="op">=</span><span class="st">'date'</span>, y<span class="op">=</span><span class="st">'value'</span>, hue<span class="op">=</span><span class="st">'variable'</span>, legend<span class="op">=</span><span class="va">False</span>, palette<span class="op">=</span>[<span class="st">"#153D64"</span>, <span class="st">"#C00000"</span>], linewidth<span class="op">=</span><span class="fl">1.25</span>)</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and subtitle</span></span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>fig.add_artist(plt.Line2D([<span class="fl">0.08</span>, <span class="fl">0.08</span>], [<span class="fl">0.87</span>, <span class="fl">0.97</span>], linewidth<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span><span class="st">'#203764'</span>, solid_capstyle<span class="op">=</span><span class="st">'butt'</span>))</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.09</span>, <span class="ss">f'Wealth Property in China'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.045</span>, <span class="ss">f'Evolution of public and private wealth-income ratio'</span>, fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.01</span>, <span class="ss">f'(wealth divided by annual income)'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a><span class="co"># Axis configuration</span></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'y'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'lightgray'</span>)</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(pd.to_datetime(<span class="st">"1978-01-01"</span>), pd.to_datetime(<span class="st">"2023-12-31"</span>))</span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">''</span>)</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">''</span>)</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>plt.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, which<span class="op">=</span><span class="st">'major'</span>, labelsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify spines</span></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> spine <span class="kw">in</span> [<span class="st">'top'</span>, <span class="st">'right'</span>, <span class="st">'left'</span>]:</span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>    plt.gca().spines[spine].set_visible(<span class="va">False</span>)</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>plt.gca().spines[<span class="st">'bottom'</span>].set_color(<span class="st">'#404040'</span>)</span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>plt.gca().spines[<span class="st">'bottom'</span>].set_linewidth(<span class="fl">0.75</span>)</span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a><span class="co"># Create custom legend</span></span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>legend_elements <span class="op">=</span> [</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>    Line2D([<span class="dv">0</span>], [<span class="dv">0</span>], color<span class="op">=</span><span class="st">'#0D0D0D'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'Total'</span>),</span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>    Line2D([<span class="dv">0</span>], [<span class="dv">0</span>], color<span class="op">=</span><span class="st">'#153D64'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'Private'</span>),</span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>    Line2D([<span class="dv">0</span>], [<span class="dv">0</span>], color<span class="op">=</span><span class="st">'#C00000'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'Public'</span>)</span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>plt.legend(</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>    handles<span class="op">=</span>legend_elements, </span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>    loc<span class="op">=</span><span class="st">'upper center'</span>, </span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>    bbox_to_anchor<span class="op">=</span>(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.065</span>), </span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>    ncol<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span></span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Data Source</span></span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.15</span>, <span class="st">'Data Source:'</span>, </span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">23</span></span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.15</span>, space <span class="op">+</span> <span class="st">'World Inequality Database (WID)'</span>, </span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Note</span></span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.18</span>, <span class="st">'Notes:'</span>, </span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">12</span></span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.18</span>, space <span class="op">+</span> <span class="st">'Net private wealth, Net Public Wealth and Net national wealth to net annual national income.'</span>,</span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Total text</span></span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>lastyear <span class="op">=</span> dftotal[<span class="st">'date'</span>].<span class="bu">max</span>()</span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>lastvalue <span class="op">=</span> dftotal.loc[dftotal[<span class="st">'date'</span>] <span class="op">==</span> lastyear, <span class="st">'value'</span>].values[<span class="dv">0</span>]</span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a>plt.text(lastyear <span class="op">+</span> pd.Timedelta(days<span class="op">=</span><span class="dv">180</span>), lastvalue, <span class="st">'Total'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, va<span class="op">=</span><span class="st">'center'</span>, ha<span class="op">=</span><span class="st">'left'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span><span class="st">"#0D0D0D"</span>)</span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Private and Public text</span></span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, color <span class="kw">in</span> <span class="bu">zip</span>(dfdetail[<span class="st">'variable'</span>].unique(), [<span class="st">"#153D64"</span>, <span class="st">"#C00000"</span>]):</span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a>    df_var <span class="op">=</span> dfdetail[dfdetail[<span class="st">'variable'</span>] <span class="op">==</span> var]</span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a>    lastyear <span class="op">=</span> df_var[<span class="st">'date'</span>].<span class="bu">max</span>()</span>
+<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a>    lastvalue <span class="op">=</span> df_var.loc[df_var[<span class="st">'date'</span>] <span class="op">==</span> lastyear, <span class="st">'value'</span>].values[<span class="dv">0</span>]</span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a>    texto <span class="op">=</span> <span class="st">"Public"</span> <span class="cf">if</span> color <span class="op">==</span> <span class="st">"#153D64"</span> <span class="cf">else</span> <span class="st">"Private"</span></span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a>    plt.text(lastyear <span class="op">+</span> pd.Timedelta(days<span class="op">=</span><span class="dv">180</span>), lastvalue, texto, va<span class="op">=</span><span class="st">'center'</span>, ha<span class="op">=</span><span class="st">'left'</span>, </span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>             fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span>color)</span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout</span></span>
+<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a><span class="co"># Save it...</span></span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>download_folder <span class="op">=</span> os.path.join(os.path.expanduser(<span class="st">"~"</span>), <span class="st">"Downloads"</span>)</span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> os.path.join(download_folder, <span class="ss">f"FIG_WID_China_Wealth_Property"</span>)</span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>plt.savefig(filename, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a><span class="co"># Show :)</span></span>
+<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="1">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><a href="FIG_WID_China_Wealth_Property.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="FIG_WID_China_Wealth_Property.png" class="img-fluid"></a></p>
+</div>
+</div>
+</div>
 
 
 </section>
