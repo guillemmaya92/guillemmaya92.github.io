@@ -170,7 +170,7 @@ flag_urls = {
     'IDN': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/ID.png',
     'NGA': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/NG.png',
     'PAK': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/PK.png',
-    'BGD': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/BG.png',
+    'BGD': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/BD.png',
     'USA': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/US.png',
     'GBR': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/GB.png',
     'JPN': 'https://raw.githubusercontent.com/matahombres/CSS-Country-Flags-Rounded/master/flags/JP.png',
