@@ -281,13 +281,18 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import requests
 import os
 
 # Data (China) 
 # =====================================================================
 # Read wikipedia data
 url = "https://en.wikipedia.org/wiki/List_of_prefecture-level_divisions_of_China_by_GDP"
-tables = pd.read_html(url)
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+}
+html = requests.get(url, headers=headers).text
+tables = pd.read_html(html)
 df = tables[0]
 df.columns = ['region', '1', '2', '3', 'gdp', '4', 'gdpc', '5']
 df['population'] = df['gdp'] / df['gdpc'] * 1000
@@ -295,9 +300,9 @@ df = df[['region', 'gdpc', 'population']]
 df['region'] = df['region'].str.replace('*', '', regex=False)
 
 data = pd.DataFrame({
-    'region': ['Beijing', 'Shangai', 'Chongqing', 'Tianjin', 'Hong Kong', 'Macao'],
-    'gdpc': [28294, 26747, 12350, 17727, 48800, 36909],
-    'population': [21.8, 24.7, 32.0, 13.9, 7.5, 0.68],
+    'region': ['Beijing', 'Shangai', 'Chongqing', 'Tianjin', 'Hong Kong', 'Macao', 'Taiwan'],
+    'gdpc': [28294, 26747, 12350, 17727, 48800, 36909, 32756],
+    'population': [21.8, 24.7, 32.0, 13.9, 7.5, 0.68, 23.3],
 })
 
 df = pd.concat([df, data], ignore_index=True)
@@ -349,7 +354,7 @@ bars = plt.bar(df['left'], df['gdpc'], width=df['population'],
         color=colors, alpha=1, align='edge', edgecolor='grey', linewidth=0.1)
 
 # Title
-fig.add_artist(plt.Line2D([0.08, 0.08], [0.90, 0.99], linewidth=6, color='#203764', solid_capstyle='butt'))
+fig.add_artist(plt.Line2D([0.085, 0.085], [0.90, 0.985], linewidth=6, color='#203764', solid_capstyle='butt'))
 ax.text(0.02, 1.09, f'Regional GDP Distribution of China', fontsize=16, fontweight='bold', ha='left', transform=plt.gca().transAxes)
 ax.text(0.02, 1.06, f'From rural to urban, the role of location in income inequality', fontsize=11, color='#262626', ha='left', transform=plt.gca().transAxes)
 ax.text(0.02, 1.03, f'(GDP per capita in $US)', fontsize=9, color='#262626', ha='left', transform=plt.gca().transAxes)
@@ -384,7 +389,7 @@ for i, bar in enumerate(bars):
         'Weifang', 'Handan', 'Changchun', 'Xuzhou', 'Ganzhou', 'Zhoukou', 'Nanning',
         'Heze', 'Fujian', 'Jining', 'Shaoyang', 'Hefei', 'Nantong', 'Shangqiu',
         'Tangshan', 'Hengyang', 'Cangzhou', 'Jinhua', 'Luoyang', 'Xingtai',
-        'Zhanjiang', 'Zhumadian', 'Bijie'
+        'Zhanjiang', 'Zhumadian', 'Bijie', 'Taiwan', 'Macao'
     ]
     
     # Add labels
@@ -393,7 +398,13 @@ for i, bar in enumerate(bars):
         y = bar.get_height()
         
         # Special position
-        if region_name in ["Ordos", "Jinan", "Foshan", "Qingdao"]:
+        if region_name == "Macao":
+            x += -8
+            y += 1000
+        elif region_name == "Ordos":
+            x += -2
+            y += 3500
+        elif region_name in ["Jinan", "Foshan", "Qingdao"]:
             x -= 5
             y += 1000
         else:
@@ -474,63 +485,81 @@ import os
 # Get Data (NBS and WID)
 # =====================================================
 data = {
-    "year": list(range(1980, 2024)),
+    "year": list(range(1980, 2025)),
     "urban_population": [
         19140, 20171, 21480, 22274, 24017, 25094, 26366, 27674, 28661, 29540, 30195, 31203, 32175,
         33173, 34169, 35174, 37304, 39449, 41608, 43748, 45906, 48064, 50212, 52376, 54283, 56212,
         58288, 60633, 62403, 64512, 66978, 69927, 72175, 74502, 76738, 79302, 81924, 84343, 86433,
-        88426, 90220, 91425, 92071, 93267
+        88426, 90220, 91425, 92071, 93267, 94350
     ],
     "rural_population": [
         79565, 79901, 80174, 80734, 80340, 80757, 81141, 81626, 82365, 83164, 84138, 84620, 84996,
         85344, 85681, 85947, 85085, 84177, 83153, 82038, 80837, 79563, 78241, 76851, 75705, 74544,
         73160, 71496, 70399, 68938, 67113, 64989, 63747, 62224, 60908, 59024, 57308, 55668, 54108,
-        52582, 50992, 49835, 49104, 47700
+        52582, 50992, 49835, 49104, 47700, 46478
     ],
     "urban_consumption": [
         490, 517, 504, 547, 621, 750, 847, 953, 1200, 1345, 1404, 1623, 2017, 2676, 3671, 4810,
         5437, 5705, 5977, 6429, 7083, 7409, 7826, 8166, 8942, 9900, 10820, 12582, 14147, 15161,
         17119, 19853, 21563, 23386, 25264, 27039, 29324, 31454, 33700, 35841, 34823, 39205, 40066,
-        43797
+        43797, 45717
     ],
     "rural_consumption": [
         178, 202, 227, 252, 280, 346, 385, 427, 506, 588, 627, 661, 701, 822, 1073, 1344, 1655, 1768,
         1778, 1793, 1917, 2032, 2157, 2292, 2521, 2784, 3066, 3538, 3981, 4295, 4782, 5880, 6573,
-        7397, 8365, 9409, 10609, 12145, 13985, 15460, 16209, 18720, 19929, 21953
+        7397, 8365, 9409, 10609, 12145, 13985, 15460, 16209, 18720, 19929, 21953, 23313
     ],
     "gini_pre": [
-        0.38, 0.39, 0.39, 0.39, 0.4, 0.4, 0.42, 0.42, 0.43, 0.44, 0.43, 0.45, 0.46, 0.48, 0.48,
-        0.48, 0.47, 0.47, 0.47, 0.48, 0.5, 0.51, 0.53, 0.54, 0.55, 0.56, 0.56, 0.56, 0.56, 0.56,
-        0.57, 0.56, 0.55, 0.56, 0.55, 0.56, 0.55, 0.56, 0.56, 0.56, 0.56, 0.57, 0.57, 0.57
+        0.3822, 0.387, 0.3942, 0.3919, 0.3969, 0.4045, 0.4193, 0.4232, 0.4267, 0.4358, 0.4323, 0.4478,
+        0.4626, 0.4776, 0.4835, 0.4774, 0.4713, 0.471, 0.472, 0.4813, 0.498, 0.5072, 0.5346, 0.5428, 0.546,
+        0.5577, 0.559, 0.562, 0.5622, 0.5627, 0.5665, 0.5646, 0.5531, 0.5621, 0.5546, 0.5555, 0.5497, 0.5574,
+        0.5552, 0.5539, 0.5602, 0.5613, 0.5644, 0.5644, 0.5644
     ],
     "gini_pos": [
-        0.37678, 0.38164, 0.38878, 0.38653, 0.39165, 0.39926, 0.41379, 0.41783, 0.42156, 0.43046,
-        0.4264, 0.44225, 0.45711, 0.47219, 0.47823, 0.47116, 0.46628, 0.46659, 0.46798, 0.4751,
-        0.49029, 0.49467, 0.52002, 0.52932, 0.53136, 0.54142, 0.53733, 0.53991, 0.53665, 0.53439,
-        0.53852, 0.53215, 0.51823, 0.5256, 0.51737, 0.51879, 0.51648, 0.52329, 0.51837, 0.5174,
-        0.52289, 0.52394, 0.52394, 0.52394
+        0.3775,0.3823,0.3895,0.3872,0.3923,0.3991,0.4139,0.4181,0.422,0.4308,0.4268,0.4428,0.4577,0.4728,
+        0.4788,0.4717,0.4668,0.467,0.4683,0.4755,0.4908,0.4958,0.5215,0.5305,0.5327,0.5429,0.5395,0.5427,
+        0.5404,0.5387,0.5426,0.5374,0.5241,0.5313,0.523,0.5242,0.5224,0.5296,0.5253,0.5245,0.5295,0.5318,
+        0.5351,0.5354,0.5354
     ],
    "gini_urb": [
         0.2415, 0.243, 0.2424, 0.2463, 0.2606, 0.2886, 0.2711, 0.2576, 0.267, 0.2738,
         0.2709, 0.2643, 0.2848, 0.3021, 0.3103, 0.3074, 0.3151, 0.3239, 0.3316, 0.3372,
         0.3456, 0.3589, 0.4127, 0.4245, 0.4383, 0.4464, 0.4492, 0.452, 0.456, 0.4516,
         0.4569, 0.4802, 0.4412, 0.474, 0.4466, 0.4474,
-        None, None, None, None, None, None, None, None
+        None, None, None, None, None, None, None, None, None
     ],
     "gini_rur": [
         0.3329, 0.3422, 0.349, 0.3542, 0.3584, 0.3619, 0.3707, 0.3774, 0.3827, 0.387,
         0.3907, 0.4043, 0.4128, 0.4201, 0.4262, 0.4275, 0.43, 0.4315, 0.4267, 0.4311,
         0.4531, 0.4608, 0.4665, 0.4677, 0.4601, 0.4886, 0.483, 0.4921, 0.4903, 0.4963,
         0.5239, 0.5292, 0.5259, 0.524, 0.5232, 0.524, 
-        None, None, None, None, None, None, None, None
-    ]
+        None, None, None, None, None, None, None, None, None
+    ],
+    "gini_wea": [
+    0.5358, 0.5358, 0.5358, 0.5358, 0.5358, 0.5358, 0.5358, 0.5358,
+    0.5358, 0.5358, 0.5358, 0.5358, 0.5358, 0.5358, 0.5358, 0.5366, 0.5518, 0.5637,
+    0.5729, 0.5803, 0.5863, 0.5913, 0.5956, 0.5957, 0.6080, 0.6204, 0.6334, 0.6479,
+    0.6560, 0.6661, 0.7312, 0.7496, 0.7477, 0.7478, 0.7492, 0.7545, 0.7546, 0.7563,
+    0.7558, 0.7553, 0.7567, 0.7579, 0.7574, 0.7573, 0.7573
+]
 }
 
 df = pd.DataFrame(data)
 df['var_consumption'] = df['urban_consumption'] / df['rural_consumption']
 df['var_population'] = df['urban_population'] / df['rural_population']
 df['gini'] = df['gini_pos']
-df = df[['year', 'gini', 'var_consumption', 'var_population', 'gini_urb', 'gini_rur']]
+df = df[['year', 'gini', 'gini_wea', 'var_consumption', 'var_population', 'gini_urb', 'gini_rur']]
+
+# Interpolate monthly data (cubic)
+df['date'] = pd.to_datetime(df['year'], format='%Y')
+df= df[['date', 'gini','gini_wea','var_consumption','var_population']]
+df = df.set_index('date').resample('D').mean().interpolate(method='cubic').reset_index()
+df['year'] = df['date'].dt.year 
+
+# Formatting date
+df['date'] = pd.to_datetime(df['date'])
+
+print(df)
 
 # Data Visualization
 # =====================================================
@@ -543,20 +572,19 @@ fig, ax1 = plt.subplots(figsize=(8, 6))
 
 # Axis 1 DISPARITY
 ax1.set_ylabel('Gini coefficient', fontsize=10)
-line1, = ax1.plot(df['year'], df['gini'], color='#C00000', linewidth=2)
+line1, = ax1.plot(df['date'], df['gini'], color='#C00000', linewidth=2)
+line1, = ax1.plot(df['date'], df['gini_wea'], color="#BF8F00", linewidth=2)
 ax1.tick_params(axis='y')
-ax1.set_xlim(1980, 2024)
-ax1.set_ylim(0, 0.6)
+ax1.set_ylim(0, 0.8)
 ax1.tick_params(axis='x', labelsize=9)
 ax1.tick_params(axis='y', labelsize=8)
 
 # Axis 2 GINI
 ax2 = ax1.twinx()
 ax2.set_ylabel('Urban-rural ratio', fontsize=10)
-line2, = ax2.plot(df['year'], df['var_consumption'], color='#215C98', linewidth=2)
-line3, = ax2.plot(df['year'], df['var_population'], color='#282828', linewidth=1, linestyle=":")
+line2, = ax2.plot(df['date'], df['var_consumption'], color='#215C98', linewidth=2)
 ax2.tick_params(axis='y')
-ax2.set_ylim(0, 4)
+ax2.set_ylim(0, 5.5)
 ax2.tick_params(axis='y', labelsize=8)
 
 # Title and grid
@@ -574,9 +602,10 @@ for ax in (ax1, ax2):
             spine.set_visible(False)
 
 # Legend at bottom center
-plt.plot([], [], color='#C00000', label='Gini coefficient')
+plt.plot([], [], color='#C00000', label='Gini coefficient (income)')
+plt.plot([], [], color="#BF8F00", label='Gini coefficient (wealth)')
 plt.plot([], [], color='#215C98', label='Consumption ratio')
-plt.plot([], [], color='#282828', label='Population ratio', linestyle=':')
+
 plt.legend(
     loc='lower center',
     bbox_to_anchor=(0.5, -0.15),
@@ -604,25 +633,25 @@ plt.text(0, -0.18, space + 'National Bureau of Statistics of China (NBS), World 
 # Add Notes
 plt.text(0, -0.21, 'Ratio:', 
     transform=plt.gca().transAxes, 
-    fontsize=8,
+    fontsize=7,
     fontweight='bold',
     color='gray')
 space = " " * 11
-plt.text(0, -0.21, space + 'Urban-Rural Ratio measures the relative size between urban and rural for population and consumption', 
+plt.text(0, -0.21, space + 'Urban-Rural Ratio measures the relative size between urban and rural consumption', 
     transform=plt.gca().transAxes, 
-    fontsize=8,
+    fontsize=7,
     color='gray')
 
 # Add Notes
 plt.text(0, -0.24, 'Gini:', 
     transform=plt.gca().transAxes, 
-    fontsize=8,
+    fontsize=7,
     fontweight='bold',
     color='gray')
 space = " " * 9
 plt.text(0, -0.24, space + 'Gini coefficient is calculated using post-tax national income to measure income inequality', 
     transform=plt.gca().transAxes, 
-    fontsize=8,
+    fontsize=7,
     color='gray')
 
 # Adjust
@@ -826,7 +855,6 @@ plt.savefig(filename, dpi=300, bbox_inches='tight')
 # Mostrar el gráfico
 plt.show()
 ```
-
 
 ::: {layout-ncol="1"}
 ![](FIG_WID_China_Income_Percentiles.png){.lightbox}

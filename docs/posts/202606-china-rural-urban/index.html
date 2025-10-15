@@ -488,177 +488,188 @@ gtag('config', 'G-GJVKVH4E2Y', { 'anonymize_ip': true});
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.ticker <span class="im">as</span> ticker</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Data (China) </span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Read wikipedia data</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://en.wikipedia.org/wiki/List_of_prefecture-level_divisions_of_China_by_GDP"</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>tables <span class="op">=</span> pd.read_html(url)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> tables[<span class="dv">0</span>]</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> [<span class="st">'region'</span>, <span class="st">'1'</span>, <span class="st">'2'</span>, <span class="st">'3'</span>, <span class="st">'gdp'</span>, <span class="st">'4'</span>, <span class="st">'gdpc'</span>, <span class="st">'5'</span>]</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'population'</span>] <span class="op">=</span> df[<span class="st">'gdp'</span>] <span class="op">/</span> df[<span class="st">'gdpc'</span>] <span class="op">*</span> <span class="dv">1000</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">'region'</span>, <span class="st">'gdpc'</span>, <span class="st">'population'</span>]]</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'region'</span>] <span class="op">=</span> df[<span class="st">'region'</span>].<span class="bu">str</span>.replace(<span class="st">'*'</span>, <span class="st">''</span>, regex<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'region'</span>: [<span class="st">'Beijing'</span>, <span class="st">'Shangai'</span>, <span class="st">'Chongqing'</span>, <span class="st">'Tianjin'</span>, <span class="st">'Hong Kong'</span>, <span class="st">'Macao'</span>],</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'gdpc'</span>: [<span class="dv">28294</span>, <span class="dv">26747</span>, <span class="dv">12350</span>, <span class="dv">17727</span>, <span class="dv">48800</span>, <span class="dv">36909</span>],</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'population'</span>: [<span class="fl">21.8</span>, <span class="fl">24.7</span>, <span class="fl">32.0</span>, <span class="fl">13.9</span>, <span class="fl">7.5</span>, <span class="fl">0.68</span>],</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat([df, data], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Manipulation</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Order dataframe</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(by<span class="op">=</span>[<span class="st">'gdpc'</span>])</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Data (China) </span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Read wikipedia data</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://en.wikipedia.org/wiki/List_of_prefecture-level_divisions_of_China_by_GDP"</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"User-Agent"</span>: <span class="st">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers).text</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>tables <span class="op">=</span> pd.read_html(html)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> tables[<span class="dv">0</span>]</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> [<span class="st">'region'</span>, <span class="st">'1'</span>, <span class="st">'2'</span>, <span class="st">'3'</span>, <span class="st">'gdp'</span>, <span class="st">'4'</span>, <span class="st">'gdpc'</span>, <span class="st">'5'</span>]</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'population'</span>] <span class="op">=</span> df[<span class="st">'gdp'</span>] <span class="op">/</span> df[<span class="st">'gdpc'</span>] <span class="op">*</span> <span class="dv">1000</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">'region'</span>, <span class="st">'gdpc'</span>, <span class="st">'population'</span>]]</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'region'</span>] <span class="op">=</span> df[<span class="st">'region'</span>].<span class="bu">str</span>.replace(<span class="st">'*'</span>, <span class="st">''</span>, regex<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'region'</span>: [<span class="st">'Beijing'</span>, <span class="st">'Shangai'</span>, <span class="st">'Chongqing'</span>, <span class="st">'Tianjin'</span>, <span class="st">'Hong Kong'</span>, <span class="st">'Macao'</span>, <span class="st">'Taiwan'</span>],</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'gdpc'</span>: [<span class="dv">28294</span>, <span class="dv">26747</span>, <span class="dv">12350</span>, <span class="dv">17727</span>, <span class="dv">48800</span>, <span class="dv">36909</span>, <span class="dv">32756</span>],</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">'population'</span>: [<span class="fl">21.8</span>, <span class="fl">24.7</span>, <span class="fl">32.0</span>, <span class="fl">13.9</span>, <span class="fl">7.5</span>, <span class="fl">0.68</span>, <span class="fl">23.3</span>],</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat([df, data], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate 'left accrual widths'</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'population_cum'</span>] <span class="op">=</span> df[<span class="st">'population'</span>].cumsum()</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'left'</span>] <span class="op">=</span> df[<span class="st">'population'</span>].cumsum() <span class="op">-</span> df[<span class="st">'population'</span>]</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Pondered Gini Function</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gini(x, weights<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> weights <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        weights <span class="op">=</span> np.ones_like(x)</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> np.multiply.outer(weights, weights)</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    mad <span class="op">=</span> np.<span class="bu">abs</span>(np.subtract.outer(x, x) <span class="op">*</span> count).<span class="bu">sum</span>() <span class="op">/</span> count.<span class="bu">sum</span>()</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    rmad <span class="op">=</span> mad <span class="op">/</span> np.average(x, weights<span class="op">=</span>weights)</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.5</span> <span class="op">*</span> rmad</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate gini and median</span></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>gini_index <span class="op">=</span> gini(df[<span class="st">'gdpc'</span>].values, df[<span class="st">'population'</span>].values)</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate weighted median</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">'gdpc'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>cumsum <span class="op">=</span> df[<span class="st">'population'</span>].cumsum()</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>cutoff <span class="op">=</span> df[<span class="st">'population'</span>].<span class="bu">sum</span>() <span class="op">/</span> <span class="fl">2.0</span></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>median <span class="op">=</span> df.loc[cumsum <span class="op">&gt;=</span> cutoff, <span class="st">'gdpc'</span>].iloc[<span class="dv">0</span>]</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Show dataframe, gini and median</span></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gini_index)</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(median)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Manipulation</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Order dataframe</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(by<span class="op">=</span>[<span class="st">'gdpc'</span>])</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate 'left accrual widths'</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'population_cum'</span>] <span class="op">=</span> df[<span class="st">'population'</span>].cumsum()</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'left'</span>] <span class="op">=</span> df[<span class="st">'population'</span>].cumsum() <span class="op">-</span> df[<span class="st">'population'</span>]</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Pondered Gini Function</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gini(x, weights<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> weights <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>        weights <span class="op">=</span> np.ones_like(x)</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> np.multiply.outer(weights, weights)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    mad <span class="op">=</span> np.<span class="bu">abs</span>(np.subtract.outer(x, x) <span class="op">*</span> count).<span class="bu">sum</span>() <span class="op">/</span> count.<span class="bu">sum</span>()</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    rmad <span class="op">=</span> mad <span class="op">/</span> np.average(x, weights<span class="op">=</span>weights)</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.5</span> <span class="op">*</span> rmad</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate gini and median</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>gini_index <span class="op">=</span> gini(df[<span class="st">'gdpc'</span>].values, df[<span class="st">'population'</span>].values)</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate weighted median</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">'gdpc'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>cumsum <span class="op">=</span> df[<span class="st">'population'</span>].cumsum()</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>cutoff <span class="op">=</span> df[<span class="st">'population'</span>].<span class="bu">sum</span>() <span class="op">/</span> <span class="fl">2.0</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>median <span class="op">=</span> df.loc[cumsum <span class="op">&gt;=</span> cutoff, <span class="st">'gdpc'</span>].iloc[<span class="dv">0</span>]</span>
 <span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Visualization</span></span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Seaborn figure style</span></span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a palette</span></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>norm <span class="op">=</span> plt.Normalize(df[<span class="st">"gdpc"</span>].<span class="bu">min</span>(), <span class="dv">25000</span>)</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.coolwarm_r(norm(df[<span class="st">"gdpc"</span>]))</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Matplotlib plot</span></span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> plt.bar(df[<span class="st">'left'</span>], df[<span class="st">'gdpc'</span>], width<span class="op">=</span>df[<span class="st">'population'</span>], </span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>colors, alpha<span class="op">=</span><span class="dv">1</span>, align<span class="op">=</span><span class="st">'edge'</span>, edgecolor<span class="op">=</span><span class="st">'grey'</span>, linewidth<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Title</span></span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>fig.add_artist(plt.Line2D([<span class="fl">0.08</span>, <span class="fl">0.08</span>], [<span class="fl">0.90</span>, <span class="fl">0.99</span>], linewidth<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span><span class="st">'#203764'</span>, solid_capstyle<span class="op">=</span><span class="st">'butt'</span>))</span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">0.02</span>, <span class="fl">1.09</span>, <span class="ss">f'Regional GDP Distribution of China'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">0.02</span>, <span class="fl">1.06</span>, <span class="ss">f'From rural to urban, the role of location in income inequality'</span>, fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">0.02</span>, <span class="fl">1.03</span>, <span class="ss">f'(GDP per capita in $US)'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration grid and labels</span></span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, df[<span class="st">'population_cum'</span>].<span class="bu">max</span>()) </span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, df[<span class="st">'gdpc'</span>].<span class="bu">max</span>() <span class="op">*</span> <span class="fl">1.093</span>)</span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Cumulative Population (M)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'GDP per capita ($USD)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">'y'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'lightgray'</span>)</span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, labelsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelsize<span class="op">=</span><span class="dv">9</span>) </span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(ticker.FuncFormatter(<span class="kw">lambda</span> x, _: <span class="ss">f'</span><span class="sc">{</span><span class="bu">int</span>(x)<span class="sc">:,}</span><span class="ss">'</span>))</span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(ticker.FuncFormatter(<span class="kw">lambda</span> x, _: <span class="ss">f'</span><span class="sc">{</span><span class="bu">int</span>(x)<span class="sc">:,}</span><span class="ss">'</span>))</span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>ax.axhline(y<span class="op">=</span>median, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, zorder<span class="op">=</span><span class="dv">0</span>, alpha<span class="op">=</span><span class="fl">0.4</span>)</span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">75</span>, median <span class="op">+</span> <span class="dv">100</span>, <span class="ss">f"Median: </span><span class="sc">{</span>median<span class="sc">:,.0f}</span><span class="ss">$"</span>, color<span class="op">=</span><span class="st">'darkred'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'bottom'</span>, zorder<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="co"># Add text each region except Ávila and Segovia</span></span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, bar <span class="kw">in</span> <span class="bu">enumerate</span>(bars):</span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>    region_name <span class="op">=</span> df[<span class="st">'region'</span>].iloc[i]</span>
-<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>    top_cities <span class="op">=</span> [</span>
-<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Beijing'</span>, <span class="st">'Shangai'</span>, <span class="st">'Chongqing'</span>, <span class="st">'Tianjin'</span>, <span class="st">'Hong Kong'</span>,</span>
-<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Ordos'</span>, <span class="st">'Suzhou, Jiangsu'</span>, <span class="st">'Zhenjiang'</span>, <span class="st">'Jieyang'</span>, <span class="st">'Kashgar'</span>, <span class="st">'Shangrao'</span>, <span class="st">'Qujing'</span>,</span>
-<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Shenzhen'</span>, <span class="st">'Guangzhou'</span>, <span class="st">'Suzhou'</span>, <span class="st">'Chengdu'</span>, <span class="st">'Wuhan'</span>, <span class="st">'Hangzhou'</span>, <span class="st">'Nanjing'</span>,</span>
-<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Ningbo'</span>, <span class="st">'Qingdao'</span>, <span class="st">'Wuxi'</span>, <span class="st">'Changsha'</span>, <span class="st">'Zhengzhou'</span>, <span class="st">'Fuzhou'</span>, <span class="st">'Quanzhou'</span>,</span>
-<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Jinan'</span>, <span class="st">'Dongguan'</span>, <span class="st">'Foshan'</span>, <span class="st">"Xi'an"</span>, <span class="st">'Dalian'</span>, <span class="st">'Wenzhou'</span>, <span class="st">'Shenyang'</span>,</span>
-<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Kunming'</span>, <span class="st">'Baoding'</span>, <span class="st">'Shijiazhuang'</span>, <span class="st">'Linyi'</span>, <span class="st">'Harbin'</span>, <span class="st">'Nanyang'</span>,</span>
-<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Weifang'</span>, <span class="st">'Handan'</span>, <span class="st">'Changchun'</span>, <span class="st">'Xuzhou'</span>, <span class="st">'Ganzhou'</span>, <span class="st">'Zhoukou'</span>, <span class="st">'Nanning'</span>,</span>
-<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Heze'</span>, <span class="st">'Fujian'</span>, <span class="st">'Jining'</span>, <span class="st">'Shaoyang'</span>, <span class="st">'Hefei'</span>, <span class="st">'Nantong'</span>, <span class="st">'Shangqiu'</span>,</span>
-<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Tangshan'</span>, <span class="st">'Hengyang'</span>, <span class="st">'Cangzhou'</span>, <span class="st">'Jinhua'</span>, <span class="st">'Luoyang'</span>, <span class="st">'Xingtai'</span>,</span>
-<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Zhanjiang'</span>, <span class="st">'Zhumadian'</span>, <span class="st">'Bijie'</span></span>
-<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add labels</span></span>
-<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> region_name <span class="kw">in</span> top_cities:</span>
-<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> bar.get_x() <span class="op">+</span> bar.get_width() <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> bar.get_height()</span>
-<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Special position</span></span>
-<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> region_name <span class="kw">in</span> [<span class="st">"Ordos"</span>, <span class="st">"Jinan"</span>, <span class="st">"Foshan"</span>, <span class="st">"Qingdao"</span>]:</span>
-<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>            x <span class="op">-=</span> <span class="dv">5</span></span>
-<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>            y <span class="op">+=</span> <span class="dv">1000</span></span>
-<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>            y <span class="op">+=</span> <span class="dv">1000</span></span>
-<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>        ax.text(</span>
-<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>            x, y,</span>
-<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>            region_name,</span>
-<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>            ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'bottom'</span>, color<span class="op">=</span><span class="st">'#363636'</span>, fontsize<span class="op">=</span><span class="dv">7</span>, rotation<span class="op">=</span><span class="dv">90</span>,</span>
-<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Year label </span></span>
-<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">1</span>, <span class="fl">1.12</span>, <span class="ss">f'2022'</span>,</span>
-<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>             transform<span class="op">=</span>plt.gca().transAxes,</span>
-<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>             fontsize<span class="op">=</span><span class="dv">22</span>, ha<span class="op">=</span><span class="st">'right'</span>, va<span class="op">=</span><span class="st">'top'</span>,</span>
-<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>             fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'#D3D3D3'</span>)</span>
-<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Data Source</span></span>
-<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="st">'Data Source: National Bureau of Statistics of China'</span>, </span>
-<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>            transform<span class="op">=</span>plt.gca().transAxes, </span>
-<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>            fontsize<span class="op">=</span><span class="dv">8</span>, </span>
-<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a><span class="co"># Show GINI Index</span></span>
-<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>ax.text(</span>
-<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.09</span>, <span class="fl">0.97</span>, <span class="ss">f"Gini Index: </span><span class="sc">{</span>gini_index<span class="sc">:.2f}</span><span class="ss">"</span>, </span>
-<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>ax.transAxes,</span>
-<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="fl">8.5</span>,</span>
-<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'black'</span>,</span>
-<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">'right'</span>,</span>
-<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>    va<span class="op">=</span><span class="st">'top'</span>, </span>
-<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>    bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">"round,pad=0.3"</span>, edgecolor<span class="op">=</span><span class="st">'gray'</span>, facecolor<span class="op">=</span><span class="st">'white'</span>)</span>
-<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Show dataframe, gini and median</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gini_index)</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(median)</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Visualization</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Seaborn figure style</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a palette</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>norm <span class="op">=</span> plt.Normalize(df[<span class="st">"gdpc"</span>].<span class="bu">min</span>(), <span class="dv">25000</span>)</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.coolwarm_r(norm(df[<span class="st">"gdpc"</span>]))</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Matplotlib plot</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> plt.bar(df[<span class="st">'left'</span>], df[<span class="st">'gdpc'</span>], width<span class="op">=</span>df[<span class="st">'population'</span>], </span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>colors, alpha<span class="op">=</span><span class="dv">1</span>, align<span class="op">=</span><span class="st">'edge'</span>, edgecolor<span class="op">=</span><span class="st">'grey'</span>, linewidth<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="co"># Title</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>fig.add_artist(plt.Line2D([<span class="fl">0.085</span>, <span class="fl">0.085</span>], [<span class="fl">0.90</span>, <span class="fl">0.985</span>], linewidth<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span><span class="st">'#203764'</span>, solid_capstyle<span class="op">=</span><span class="st">'butt'</span>))</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">0.02</span>, <span class="fl">1.09</span>, <span class="ss">f'Regional GDP Distribution of China'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">0.02</span>, <span class="fl">1.06</span>, <span class="ss">f'From rural to urban, the role of location in income inequality'</span>, fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">0.02</span>, <span class="fl">1.03</span>, <span class="ss">f'(GDP per capita in $US)'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span><span class="st">'#262626'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration grid and labels</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, df[<span class="st">'population_cum'</span>].<span class="bu">max</span>()) </span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, df[<span class="st">'gdpc'</span>].<span class="bu">max</span>() <span class="op">*</span> <span class="fl">1.093</span>)</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Cumulative Population (M)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'GDP per capita ($USD)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">'y'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'lightgray'</span>)</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, labelsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelsize<span class="op">=</span><span class="dv">9</span>) </span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(ticker.FuncFormatter(<span class="kw">lambda</span> x, _: <span class="ss">f'</span><span class="sc">{</span><span class="bu">int</span>(x)<span class="sc">:,}</span><span class="ss">'</span>))</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(ticker.FuncFormatter(<span class="kw">lambda</span> x, _: <span class="ss">f'</span><span class="sc">{</span><span class="bu">int</span>(x)<span class="sc">:,}</span><span class="ss">'</span>))</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>ax.axhline(y<span class="op">=</span>median, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, zorder<span class="op">=</span><span class="dv">0</span>, alpha<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">75</span>, median <span class="op">+</span> <span class="dv">100</span>, <span class="ss">f"Median: </span><span class="sc">{</span>median<span class="sc">:,.0f}</span><span class="ss">$"</span>, color<span class="op">=</span><span class="st">'darkred'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'bottom'</span>, zorder<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="co"># Add text each region except Ávila and Segovia</span></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, bar <span class="kw">in</span> <span class="bu">enumerate</span>(bars):</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>    region_name <span class="op">=</span> df[<span class="st">'region'</span>].iloc[i]</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>    top_cities <span class="op">=</span> [</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Beijing'</span>, <span class="st">'Shangai'</span>, <span class="st">'Chongqing'</span>, <span class="st">'Tianjin'</span>, <span class="st">'Hong Kong'</span>,</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Ordos'</span>, <span class="st">'Suzhou, Jiangsu'</span>, <span class="st">'Zhenjiang'</span>, <span class="st">'Jieyang'</span>, <span class="st">'Kashgar'</span>, <span class="st">'Shangrao'</span>, <span class="st">'Qujing'</span>,</span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Shenzhen'</span>, <span class="st">'Guangzhou'</span>, <span class="st">'Suzhou'</span>, <span class="st">'Chengdu'</span>, <span class="st">'Wuhan'</span>, <span class="st">'Hangzhou'</span>, <span class="st">'Nanjing'</span>,</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Ningbo'</span>, <span class="st">'Qingdao'</span>, <span class="st">'Wuxi'</span>, <span class="st">'Changsha'</span>, <span class="st">'Zhengzhou'</span>, <span class="st">'Fuzhou'</span>, <span class="st">'Quanzhou'</span>,</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Jinan'</span>, <span class="st">'Dongguan'</span>, <span class="st">'Foshan'</span>, <span class="st">"Xi'an"</span>, <span class="st">'Dalian'</span>, <span class="st">'Wenzhou'</span>, <span class="st">'Shenyang'</span>,</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Kunming'</span>, <span class="st">'Baoding'</span>, <span class="st">'Shijiazhuang'</span>, <span class="st">'Linyi'</span>, <span class="st">'Harbin'</span>, <span class="st">'Nanyang'</span>,</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Weifang'</span>, <span class="st">'Handan'</span>, <span class="st">'Changchun'</span>, <span class="st">'Xuzhou'</span>, <span class="st">'Ganzhou'</span>, <span class="st">'Zhoukou'</span>, <span class="st">'Nanning'</span>,</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Heze'</span>, <span class="st">'Fujian'</span>, <span class="st">'Jining'</span>, <span class="st">'Shaoyang'</span>, <span class="st">'Hefei'</span>, <span class="st">'Nantong'</span>, <span class="st">'Shangqiu'</span>,</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Tangshan'</span>, <span class="st">'Hengyang'</span>, <span class="st">'Cangzhou'</span>, <span class="st">'Jinhua'</span>, <span class="st">'Luoyang'</span>, <span class="st">'Xingtai'</span>,</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Zhanjiang'</span>, <span class="st">'Zhumadian'</span>, <span class="st">'Bijie'</span>, <span class="st">'Taiwan'</span>, <span class="st">'Macao'</span></span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add labels</span></span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> region_name <span class="kw">in</span> top_cities:</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> bar.get_x() <span class="op">+</span> bar.get_width() <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> bar.get_height()</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Special position</span></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> region_name <span class="op">==</span> <span class="st">"Macao"</span>:</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>            x <span class="op">+=</span> <span class="op">-</span><span class="dv">8</span></span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>            y <span class="op">+=</span> <span class="dv">1000</span></span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> region_name <span class="op">==</span> <span class="st">"Ordos"</span>:</span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>            x <span class="op">+=</span> <span class="op">-</span><span class="dv">2</span></span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>            y <span class="op">+=</span> <span class="dv">3500</span></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> region_name <span class="kw">in</span> [<span class="st">"Jinan"</span>, <span class="st">"Foshan"</span>, <span class="st">"Qingdao"</span>]:</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>            x <span class="op">-=</span> <span class="dv">5</span></span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>            y <span class="op">+=</span> <span class="dv">1000</span></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>            y <span class="op">+=</span> <span class="dv">1000</span></span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>        ax.text(</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>            x, y,</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>            region_name,</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>            ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'bottom'</span>, color<span class="op">=</span><span class="st">'#363636'</span>, fontsize<span class="op">=</span><span class="dv">7</span>, rotation<span class="op">=</span><span class="dv">90</span>,</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Year label </span></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">1</span>, <span class="fl">1.12</span>, <span class="ss">f'2022'</span>,</span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>             transform<span class="op">=</span>plt.gca().transAxes,</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>             fontsize<span class="op">=</span><span class="dv">22</span>, ha<span class="op">=</span><span class="st">'right'</span>, va<span class="op">=</span><span class="st">'top'</span>,</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>             fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'#D3D3D3'</span>)</span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Data Source</span></span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="st">'Data Source: National Bureau of Statistics of China'</span>, </span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>            transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>            fontsize<span class="op">=</span><span class="dv">8</span>, </span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'gray'</span>)</span>
 <span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Gini Index</span></span>
-<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.12</span>, <span class="st">'Notes: The Gini coefficient has been calculated using population weights for each region.'</span>, </span>
-<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>            transform<span class="op">=</span>plt.gca().transAxes, </span>
-<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>            fontsize<span class="op">=</span><span class="dv">8</span>, </span>
-<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a><span class="co"># Add label "poorest" and "richest"</span></span>
-<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.065</span>, <span class="st">'Low Income'</span>,</span>
-<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>             transform<span class="op">=</span>ax.transAxes,</span>
-<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>             fontsize<span class="op">=</span><span class="dv">11</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'darkred'</span>, ha<span class="op">=</span><span class="st">'left'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
-<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">0.915</span>, <span class="op">-</span><span class="fl">0.065</span>, <span class="st">'High Income'</span>,</span>
-<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>             transform<span class="op">=</span>ax.transAxes,</span>
-<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>             fontsize<span class="op">=</span><span class="dv">11</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'darkblue'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
-<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout</span></span>
-<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a><span class="co"># Show GINI Index</span></span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>ax.text(</span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.09</span>, <span class="fl">0.97</span>, <span class="ss">f"Gini Index: </span><span class="sc">{</span>gini_index<span class="sc">:.2f}</span><span class="ss">"</span>, </span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>ax.transAxes,</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="fl">8.5</span>,</span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">'right'</span>,</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>    va<span class="op">=</span><span class="st">'top'</span>, </span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>    bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">"round,pad=0.3"</span>, edgecolor<span class="op">=</span><span class="st">'gray'</span>, facecolor<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Gini Index</span></span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.12</span>, <span class="st">'Notes: The Gini coefficient has been calculated using population weights for each region.'</span>, </span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>            transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>            fontsize<span class="op">=</span><span class="dv">8</span>, </span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'gray'</span>)</span>
 <span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a><span class="co"># Save it...</span></span>
-<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>download_folder <span class="op">=</span> os.path.join(os.path.expanduser(<span class="st">"~"</span>), <span class="st">"Downloads"</span>)</span>
-<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> os.path.join(download_folder, <span class="ss">f"FIG_BUREAU_Region_Distribution_China_Prefecture.png"</span>)</span>
-<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>plt.savefig(filename, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
-<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a><span class="co"># Show :)</span></span>
-<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a><span class="co"># Add label "poorest" and "richest"</span></span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.065</span>, <span class="st">'Low Income'</span>,</span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>             transform<span class="op">=</span>ax.transAxes,</span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>             fontsize<span class="op">=</span><span class="dv">11</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'darkred'</span>, ha<span class="op">=</span><span class="st">'left'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">0.915</span>, <span class="op">-</span><span class="fl">0.065</span>, <span class="st">'High Income'</span>,</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>             transform<span class="op">=</span>ax.transAxes,</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>             fontsize<span class="op">=</span><span class="dv">11</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'darkblue'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout</span></span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a><span class="co"># Save it...</span></span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>download_folder <span class="op">=</span> os.path.join(os.path.expanduser(<span class="st">"~"</span>), <span class="st">"Downloads"</span>)</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> os.path.join(download_folder, <span class="ss">f"FIG_BUREAU_Region_Distribution_China_Prefecture.png"</span>)</span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a>plt.savefig(filename, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a><span class="co"># Show :)</span></span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div>
@@ -684,167 +695,185 @@ gtag('config', 'G-GJVKVH4E2Y', { 'anonymize_ip': true});
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Get Data (NBS and WID)</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"year"</span>: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1980</span>, <span class="dv">2024</span>)),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"year"</span>: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1980</span>, <span class="dv">2025</span>)),</span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"urban_population"</span>: [</span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="dv">19140</span>, <span class="dv">20171</span>, <span class="dv">21480</span>, <span class="dv">22274</span>, <span class="dv">24017</span>, <span class="dv">25094</span>, <span class="dv">26366</span>, <span class="dv">27674</span>, <span class="dv">28661</span>, <span class="dv">29540</span>, <span class="dv">30195</span>, <span class="dv">31203</span>, <span class="dv">32175</span>,</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="dv">33173</span>, <span class="dv">34169</span>, <span class="dv">35174</span>, <span class="dv">37304</span>, <span class="dv">39449</span>, <span class="dv">41608</span>, <span class="dv">43748</span>, <span class="dv">45906</span>, <span class="dv">48064</span>, <span class="dv">50212</span>, <span class="dv">52376</span>, <span class="dv">54283</span>, <span class="dv">56212</span>,</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="dv">58288</span>, <span class="dv">60633</span>, <span class="dv">62403</span>, <span class="dv">64512</span>, <span class="dv">66978</span>, <span class="dv">69927</span>, <span class="dv">72175</span>, <span class="dv">74502</span>, <span class="dv">76738</span>, <span class="dv">79302</span>, <span class="dv">81924</span>, <span class="dv">84343</span>, <span class="dv">86433</span>,</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="dv">88426</span>, <span class="dv">90220</span>, <span class="dv">91425</span>, <span class="dv">92071</span>, <span class="dv">93267</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="dv">88426</span>, <span class="dv">90220</span>, <span class="dv">91425</span>, <span class="dv">92071</span>, <span class="dv">93267</span>, <span class="dv">94350</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    ],</span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rural_population"</span>: [</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="dv">79565</span>, <span class="dv">79901</span>, <span class="dv">80174</span>, <span class="dv">80734</span>, <span class="dv">80340</span>, <span class="dv">80757</span>, <span class="dv">81141</span>, <span class="dv">81626</span>, <span class="dv">82365</span>, <span class="dv">83164</span>, <span class="dv">84138</span>, <span class="dv">84620</span>, <span class="dv">84996</span>,</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="dv">85344</span>, <span class="dv">85681</span>, <span class="dv">85947</span>, <span class="dv">85085</span>, <span class="dv">84177</span>, <span class="dv">83153</span>, <span class="dv">82038</span>, <span class="dv">80837</span>, <span class="dv">79563</span>, <span class="dv">78241</span>, <span class="dv">76851</span>, <span class="dv">75705</span>, <span class="dv">74544</span>,</span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="dv">73160</span>, <span class="dv">71496</span>, <span class="dv">70399</span>, <span class="dv">68938</span>, <span class="dv">67113</span>, <span class="dv">64989</span>, <span class="dv">63747</span>, <span class="dv">62224</span>, <span class="dv">60908</span>, <span class="dv">59024</span>, <span class="dv">57308</span>, <span class="dv">55668</span>, <span class="dv">54108</span>,</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="dv">52582</span>, <span class="dv">50992</span>, <span class="dv">49835</span>, <span class="dv">49104</span>, <span class="dv">47700</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="dv">52582</span>, <span class="dv">50992</span>, <span class="dv">49835</span>, <span class="dv">49104</span>, <span class="dv">47700</span>, <span class="dv">46478</span></span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    ],</span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"urban_consumption"</span>: [</span>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="dv">490</span>, <span class="dv">517</span>, <span class="dv">504</span>, <span class="dv">547</span>, <span class="dv">621</span>, <span class="dv">750</span>, <span class="dv">847</span>, <span class="dv">953</span>, <span class="dv">1200</span>, <span class="dv">1345</span>, <span class="dv">1404</span>, <span class="dv">1623</span>, <span class="dv">2017</span>, <span class="dv">2676</span>, <span class="dv">3671</span>, <span class="dv">4810</span>,</span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        <span class="dv">5437</span>, <span class="dv">5705</span>, <span class="dv">5977</span>, <span class="dv">6429</span>, <span class="dv">7083</span>, <span class="dv">7409</span>, <span class="dv">7826</span>, <span class="dv">8166</span>, <span class="dv">8942</span>, <span class="dv">9900</span>, <span class="dv">10820</span>, <span class="dv">12582</span>, <span class="dv">14147</span>, <span class="dv">15161</span>,</span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="dv">17119</span>, <span class="dv">19853</span>, <span class="dv">21563</span>, <span class="dv">23386</span>, <span class="dv">25264</span>, <span class="dv">27039</span>, <span class="dv">29324</span>, <span class="dv">31454</span>, <span class="dv">33700</span>, <span class="dv">35841</span>, <span class="dv">34823</span>, <span class="dv">39205</span>, <span class="dv">40066</span>,</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="dv">43797</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="dv">43797</span>, <span class="dv">45717</span></span>
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    ],</span>
 <span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rural_consumption"</span>: [</span>
 <span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="dv">178</span>, <span class="dv">202</span>, <span class="dv">227</span>, <span class="dv">252</span>, <span class="dv">280</span>, <span class="dv">346</span>, <span class="dv">385</span>, <span class="dv">427</span>, <span class="dv">506</span>, <span class="dv">588</span>, <span class="dv">627</span>, <span class="dv">661</span>, <span class="dv">701</span>, <span class="dv">822</span>, <span class="dv">1073</span>, <span class="dv">1344</span>, <span class="dv">1655</span>, <span class="dv">1768</span>,</span>
 <span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1778</span>, <span class="dv">1793</span>, <span class="dv">1917</span>, <span class="dv">2032</span>, <span class="dv">2157</span>, <span class="dv">2292</span>, <span class="dv">2521</span>, <span class="dv">2784</span>, <span class="dv">3066</span>, <span class="dv">3538</span>, <span class="dv">3981</span>, <span class="dv">4295</span>, <span class="dv">4782</span>, <span class="dv">5880</span>, <span class="dv">6573</span>,</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        <span class="dv">7397</span>, <span class="dv">8365</span>, <span class="dv">9409</span>, <span class="dv">10609</span>, <span class="dv">12145</span>, <span class="dv">13985</span>, <span class="dv">15460</span>, <span class="dv">16209</span>, <span class="dv">18720</span>, <span class="dv">19929</span>, <span class="dv">21953</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        <span class="dv">7397</span>, <span class="dv">8365</span>, <span class="dv">9409</span>, <span class="dv">10609</span>, <span class="dv">12145</span>, <span class="dv">13985</span>, <span class="dv">15460</span>, <span class="dv">16209</span>, <span class="dv">18720</span>, <span class="dv">19929</span>, <span class="dv">21953</span>, <span class="dv">23313</span></span>
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    ],</span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"gini_pre"</span>: [</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.38</span>, <span class="fl">0.39</span>, <span class="fl">0.39</span>, <span class="fl">0.39</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.42</span>, <span class="fl">0.42</span>, <span class="fl">0.43</span>, <span class="fl">0.44</span>, <span class="fl">0.43</span>, <span class="fl">0.45</span>, <span class="fl">0.46</span>, <span class="fl">0.48</span>, <span class="fl">0.48</span>,</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.48</span>, <span class="fl">0.47</span>, <span class="fl">0.47</span>, <span class="fl">0.47</span>, <span class="fl">0.48</span>, <span class="fl">0.5</span>, <span class="fl">0.51</span>, <span class="fl">0.53</span>, <span class="fl">0.54</span>, <span class="fl">0.55</span>, <span class="fl">0.56</span>, <span class="fl">0.56</span>, <span class="fl">0.56</span>, <span class="fl">0.56</span>, <span class="fl">0.56</span>,</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.57</span>, <span class="fl">0.56</span>, <span class="fl">0.55</span>, <span class="fl">0.56</span>, <span class="fl">0.55</span>, <span class="fl">0.56</span>, <span class="fl">0.55</span>, <span class="fl">0.56</span>, <span class="fl">0.56</span>, <span class="fl">0.56</span>, <span class="fl">0.56</span>, <span class="fl">0.57</span>, <span class="fl">0.57</span>, <span class="fl">0.57</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">"gini_pos"</span>: [</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.37678</span>, <span class="fl">0.38164</span>, <span class="fl">0.38878</span>, <span class="fl">0.38653</span>, <span class="fl">0.39165</span>, <span class="fl">0.39926</span>, <span class="fl">0.41379</span>, <span class="fl">0.41783</span>, <span class="fl">0.42156</span>, <span class="fl">0.43046</span>,</span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.4264</span>, <span class="fl">0.44225</span>, <span class="fl">0.45711</span>, <span class="fl">0.47219</span>, <span class="fl">0.47823</span>, <span class="fl">0.47116</span>, <span class="fl">0.46628</span>, <span class="fl">0.46659</span>, <span class="fl">0.46798</span>, <span class="fl">0.4751</span>,</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.49029</span>, <span class="fl">0.49467</span>, <span class="fl">0.52002</span>, <span class="fl">0.52932</span>, <span class="fl">0.53136</span>, <span class="fl">0.54142</span>, <span class="fl">0.53733</span>, <span class="fl">0.53991</span>, <span class="fl">0.53665</span>, <span class="fl">0.53439</span>,</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.53852</span>, <span class="fl">0.53215</span>, <span class="fl">0.51823</span>, <span class="fl">0.5256</span>, <span class="fl">0.51737</span>, <span class="fl">0.51879</span>, <span class="fl">0.51648</span>, <span class="fl">0.52329</span>, <span class="fl">0.51837</span>, <span class="fl">0.5174</span>,</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.52289</span>, <span class="fl">0.52394</span>, <span class="fl">0.52394</span>, <span class="fl">0.52394</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.3822</span>, <span class="fl">0.387</span>, <span class="fl">0.3942</span>, <span class="fl">0.3919</span>, <span class="fl">0.3969</span>, <span class="fl">0.4045</span>, <span class="fl">0.4193</span>, <span class="fl">0.4232</span>, <span class="fl">0.4267</span>, <span class="fl">0.4358</span>, <span class="fl">0.4323</span>, <span class="fl">0.4478</span>,</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.4626</span>, <span class="fl">0.4776</span>, <span class="fl">0.4835</span>, <span class="fl">0.4774</span>, <span class="fl">0.4713</span>, <span class="fl">0.471</span>, <span class="fl">0.472</span>, <span class="fl">0.4813</span>, <span class="fl">0.498</span>, <span class="fl">0.5072</span>, <span class="fl">0.5346</span>, <span class="fl">0.5428</span>, <span class="fl">0.546</span>,</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.5577</span>, <span class="fl">0.559</span>, <span class="fl">0.562</span>, <span class="fl">0.5622</span>, <span class="fl">0.5627</span>, <span class="fl">0.5665</span>, <span class="fl">0.5646</span>, <span class="fl">0.5531</span>, <span class="fl">0.5621</span>, <span class="fl">0.5546</span>, <span class="fl">0.5555</span>, <span class="fl">0.5497</span>, <span class="fl">0.5574</span>,</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.5552</span>, <span class="fl">0.5539</span>, <span class="fl">0.5602</span>, <span class="fl">0.5613</span>, <span class="fl">0.5644</span>, <span class="fl">0.5644</span>, <span class="fl">0.5644</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"gini_pos"</span>: [</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.3775</span>,<span class="fl">0.3823</span>,<span class="fl">0.3895</span>,<span class="fl">0.3872</span>,<span class="fl">0.3923</span>,<span class="fl">0.3991</span>,<span class="fl">0.4139</span>,<span class="fl">0.4181</span>,<span class="fl">0.422</span>,<span class="fl">0.4308</span>,<span class="fl">0.4268</span>,<span class="fl">0.4428</span>,<span class="fl">0.4577</span>,<span class="fl">0.4728</span>,</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.4788</span>,<span class="fl">0.4717</span>,<span class="fl">0.4668</span>,<span class="fl">0.467</span>,<span class="fl">0.4683</span>,<span class="fl">0.4755</span>,<span class="fl">0.4908</span>,<span class="fl">0.4958</span>,<span class="fl">0.5215</span>,<span class="fl">0.5305</span>,<span class="fl">0.5327</span>,<span class="fl">0.5429</span>,<span class="fl">0.5395</span>,<span class="fl">0.5427</span>,</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.5404</span>,<span class="fl">0.5387</span>,<span class="fl">0.5426</span>,<span class="fl">0.5374</span>,<span class="fl">0.5241</span>,<span class="fl">0.5313</span>,<span class="fl">0.523</span>,<span class="fl">0.5242</span>,<span class="fl">0.5224</span>,<span class="fl">0.5296</span>,<span class="fl">0.5253</span>,<span class="fl">0.5245</span>,<span class="fl">0.5295</span>,<span class="fl">0.5318</span>,</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.5351</span>,<span class="fl">0.5354</span>,<span class="fl">0.5354</span></span>
 <span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    ],</span>
 <span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>   <span class="st">"gini_urb"</span>: [</span>
 <span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.2415</span>, <span class="fl">0.243</span>, <span class="fl">0.2424</span>, <span class="fl">0.2463</span>, <span class="fl">0.2606</span>, <span class="fl">0.2886</span>, <span class="fl">0.2711</span>, <span class="fl">0.2576</span>, <span class="fl">0.267</span>, <span class="fl">0.2738</span>,</span>
 <span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.2709</span>, <span class="fl">0.2643</span>, <span class="fl">0.2848</span>, <span class="fl">0.3021</span>, <span class="fl">0.3103</span>, <span class="fl">0.3074</span>, <span class="fl">0.3151</span>, <span class="fl">0.3239</span>, <span class="fl">0.3316</span>, <span class="fl">0.3372</span>,</span>
 <span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.3456</span>, <span class="fl">0.3589</span>, <span class="fl">0.4127</span>, <span class="fl">0.4245</span>, <span class="fl">0.4383</span>, <span class="fl">0.4464</span>, <span class="fl">0.4492</span>, <span class="fl">0.452</span>, <span class="fl">0.456</span>, <span class="fl">0.4516</span>,</span>
 <span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.4569</span>, <span class="fl">0.4802</span>, <span class="fl">0.4412</span>, <span class="fl">0.474</span>, <span class="fl">0.4466</span>, <span class="fl">0.4474</span>,</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>        <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>        <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span></span>
 <span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    ],</span>
 <span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"gini_rur"</span>: [</span>
 <span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.3329</span>, <span class="fl">0.3422</span>, <span class="fl">0.349</span>, <span class="fl">0.3542</span>, <span class="fl">0.3584</span>, <span class="fl">0.3619</span>, <span class="fl">0.3707</span>, <span class="fl">0.3774</span>, <span class="fl">0.3827</span>, <span class="fl">0.387</span>,</span>
 <span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.3907</span>, <span class="fl">0.4043</span>, <span class="fl">0.4128</span>, <span class="fl">0.4201</span>, <span class="fl">0.4262</span>, <span class="fl">0.4275</span>, <span class="fl">0.43</span>, <span class="fl">0.4315</span>, <span class="fl">0.4267</span>, <span class="fl">0.4311</span>,</span>
 <span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.4531</span>, <span class="fl">0.4608</span>, <span class="fl">0.4665</span>, <span class="fl">0.4677</span>, <span class="fl">0.4601</span>, <span class="fl">0.4886</span>, <span class="fl">0.483</span>, <span class="fl">0.4921</span>, <span class="fl">0.4903</span>, <span class="fl">0.4963</span>,</span>
 <span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.5239</span>, <span class="fl">0.5292</span>, <span class="fl">0.5259</span>, <span class="fl">0.524</span>, <span class="fl">0.5232</span>, <span class="fl">0.524</span>, </span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>        <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'var_consumption'</span>] <span class="op">=</span> df[<span class="st">'urban_consumption'</span>] <span class="op">/</span> df[<span class="st">'rural_consumption'</span>]</span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'var_population'</span>] <span class="op">=</span> df[<span class="st">'urban_population'</span>] <span class="op">/</span> df[<span class="st">'rural_population'</span>]</span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'gini'</span>] <span class="op">=</span> df[<span class="st">'gini_pos'</span>]</span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">'year'</span>, <span class="st">'gini'</span>, <span class="st">'var_consumption'</span>, <span class="st">'var_population'</span>, <span class="st">'gini_urb'</span>, <span class="st">'gini_rur'</span>]]</span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Visualization</span></span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================</span></span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Font and style</span></span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">'font.family'</span>: <span class="st">'sans-serif'</span>, <span class="st">'font.sans-serif'</span>: [<span class="st">'Franklin Gothic'</span>], <span class="st">'font.size'</span>: <span class="dv">9</span>})</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"white"</span>, palette<span class="op">=</span><span class="st">"muted"</span>)</span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Create figure and axis</span></span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>fig, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a><span class="co"># Axis 1 DISPARITY</span></span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'Gini coefficient'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>line1, <span class="op">=</span> ax1.plot(df[<span class="st">'year'</span>], df[<span class="st">'gini'</span>], color<span class="op">=</span><span class="st">'#C00000'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">'y'</span>)</span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>ax1.set_xlim(<span class="dv">1980</span>, <span class="dv">2024</span>)</span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>ax1.set_ylim(<span class="dv">0</span>, <span class="fl">0.6</span>)</span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, labelsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>        <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">"gini_wea"</span>: [</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5358</span>,</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5358</span>, <span class="fl">0.5366</span>, <span class="fl">0.5518</span>, <span class="fl">0.5637</span>,</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.5729</span>, <span class="fl">0.5803</span>, <span class="fl">0.5863</span>, <span class="fl">0.5913</span>, <span class="fl">0.5956</span>, <span class="fl">0.5957</span>, <span class="fl">0.6080</span>, <span class="fl">0.6204</span>, <span class="fl">0.6334</span>, <span class="fl">0.6479</span>,</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.6560</span>, <span class="fl">0.6661</span>, <span class="fl">0.7312</span>, <span class="fl">0.7496</span>, <span class="fl">0.7477</span>, <span class="fl">0.7478</span>, <span class="fl">0.7492</span>, <span class="fl">0.7545</span>, <span class="fl">0.7546</span>, <span class="fl">0.7563</span>,</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.7558</span>, <span class="fl">0.7553</span>, <span class="fl">0.7567</span>, <span class="fl">0.7579</span>, <span class="fl">0.7574</span>, <span class="fl">0.7573</span>, <span class="fl">0.7573</span></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'var_consumption'</span>] <span class="op">=</span> df[<span class="st">'urban_consumption'</span>] <span class="op">/</span> df[<span class="st">'rural_consumption'</span>]</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'var_population'</span>] <span class="op">=</span> df[<span class="st">'urban_population'</span>] <span class="op">/</span> df[<span class="st">'rural_population'</span>]</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'gini'</span>] <span class="op">=</span> df[<span class="st">'gini_pos'</span>]</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">'year'</span>, <span class="st">'gini'</span>, <span class="st">'gini_wea'</span>, <span class="st">'var_consumption'</span>, <span class="st">'var_population'</span>, <span class="st">'gini_urb'</span>, <span class="st">'gini_rur'</span>]]</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpolate monthly data (cubic)</span></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'year'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%Y'</span>)</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span> df[[<span class="st">'date'</span>, <span class="st">'gini'</span>,<span class="st">'gini_wea'</span>,<span class="st">'var_consumption'</span>,<span class="st">'var_population'</span>]]</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.set_index(<span class="st">'date'</span>).resample(<span class="st">'D'</span>).mean().interpolate(method<span class="op">=</span><span class="st">'cubic'</span>).reset_index()</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'year'</span>] <span class="op">=</span> df[<span class="st">'date'</span>].dt.year </span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="co"># Formatting date</span></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'date'</span>])</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
 <span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Axis 2 GINI</span></span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> ax1.twinx()</span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'Urban-rural ratio'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>line2, <span class="op">=</span> ax2.plot(df[<span class="st">'year'</span>], df[<span class="st">'var_consumption'</span>], color<span class="op">=</span><span class="st">'#215C98'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>line3, <span class="op">=</span> ax2.plot(df[<span class="st">'year'</span>], df[<span class="st">'var_population'</span>], color<span class="op">=</span><span class="st">'#282828'</span>, linewidth<span class="op">=</span><span class="dv">1</span>, linestyle<span class="op">=</span><span class="st">":"</span>)</span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>ax2.tick_params(axis<span class="op">=</span><span class="st">'y'</span>)</span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>ax2.set_ylim(<span class="dv">0</span>, <span class="dv">4</span>)</span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>ax2.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Visualization</span></span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================</span></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="co"># Font and style</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">'font.family'</span>: <span class="st">'sans-serif'</span>, <span class="st">'font.sans-serif'</span>: [<span class="st">'Franklin Gothic'</span>], <span class="st">'font.size'</span>: <span class="dv">9</span>})</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"white"</span>, palette<span class="op">=</span><span class="st">"muted"</span>)</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a><span class="co"># Create figure and axis</span></span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>fig, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
 <span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Title and grid</span></span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.13</span>, <span class="ss">f'Inequality Trends in China'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.08</span>, <span class="ss">f'Urban-Rural Consumption Ratio and Gini Coefficient since 1980'</span>, fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">"#3A3A3A"</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>ax1.grid(axis<span class="op">=</span><span class="st">'y'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove spines</span></span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> (ax1, ax2):</span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> spine_name, spine <span class="kw">in</span> ax.spines.items():</span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> spine_name <span class="op">==</span> <span class="st">'bottom'</span>:</span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>            spine.set_visible(<span class="va">True</span>)</span>
-<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>            spine.set_linewidth(<span class="fl">0.5</span>)</span>
-<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>            spine.set_visible(<span class="va">False</span>)</span>
-<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="co"># Legend at bottom center</span></span>
-<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>plt.plot([], [], color<span class="op">=</span><span class="st">'#C00000'</span>, label<span class="op">=</span><span class="st">'Gini coefficient'</span>)</span>
-<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>plt.plot([], [], color<span class="op">=</span><span class="st">'#215C98'</span>, label<span class="op">=</span><span class="st">'Consumption ratio'</span>)</span>
-<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>plt.plot([], [], color<span class="op">=</span><span class="st">'#282828'</span>, label<span class="op">=</span><span class="st">'Population ratio'</span>, linestyle<span class="op">=</span><span class="st">':'</span>)</span>
-<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>plt.legend(</span>
-<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>    loc<span class="op">=</span><span class="st">'lower center'</span>,</span>
-<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>    bbox_to_anchor<span class="op">=</span>(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.15</span>),</span>
-<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>    ncol<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>    handlelength<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>    handleheight<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>    borderpad<span class="op">=</span><span class="fl">0.2</span>,</span>
-<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>    columnspacing<span class="op">=</span><span class="fl">0.5</span></span>
-<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Data Source</span></span>
-<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.18</span>, <span class="st">'Data Source:'</span>, </span>
-<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
-<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
-<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">23</span></span>
-<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.18</span>, space <span class="op">+</span> <span class="st">'National Bureau of Statistics of China (NBS), World Inequality Database (WID)'</span>, </span>
-<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
-<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Notes</span></span>
-<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.21</span>, <span class="st">'Ratio:'</span>, </span>
-<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
-<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
-<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">11</span></span>
-<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.21</span>, space <span class="op">+</span> <span class="st">'Urban-Rural Ratio measures the relative size between urban and rural for population and consumption'</span>, </span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Axis 1 DISPARITY</span></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'Gini coefficient'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>line1, <span class="op">=</span> ax1.plot(df[<span class="st">'date'</span>], df[<span class="st">'gini'</span>], color<span class="op">=</span><span class="st">'#C00000'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>line1, <span class="op">=</span> ax1.plot(df[<span class="st">'date'</span>], df[<span class="st">'gini_wea'</span>], color<span class="op">=</span><span class="st">"#BF8F00"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">'y'</span>)</span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>ax1.set_ylim(<span class="dv">0</span>, <span class="fl">0.8</span>)</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, labelsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a><span class="co"># Axis 2 GINI</span></span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> ax1.twinx()</span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'Urban-rural ratio'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>line2, <span class="op">=</span> ax2.plot(df[<span class="st">'date'</span>], df[<span class="st">'var_consumption'</span>], color<span class="op">=</span><span class="st">'#215C98'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>ax2.tick_params(axis<span class="op">=</span><span class="st">'y'</span>)</span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>ax2.set_ylim(<span class="dv">0</span>, <span class="fl">5.5</span>)</span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>ax2.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a><span class="co"># Title and grid</span></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.13</span>, <span class="ss">f'Inequality Trends in China'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">0.02</span>, <span class="fl">1.08</span>, <span class="ss">f'Urban-Rural Consumption Ratio and Gini Coefficient since 1980'</span>, fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">"#3A3A3A"</span>, ha<span class="op">=</span><span class="st">'left'</span>, transform<span class="op">=</span>plt.gca().transAxes)</span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>ax1.grid(axis<span class="op">=</span><span class="st">'y'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove spines</span></span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> (ax1, ax2):</span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> spine_name, spine <span class="kw">in</span> ax.spines.items():</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> spine_name <span class="op">==</span> <span class="st">'bottom'</span>:</span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>            spine.set_visible(<span class="va">True</span>)</span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>            spine.set_linewidth(<span class="fl">0.5</span>)</span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>            spine.set_visible(<span class="va">False</span>)</span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a><span class="co"># Legend at bottom center</span></span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>plt.plot([], [], color<span class="op">=</span><span class="st">'#C00000'</span>, label<span class="op">=</span><span class="st">'Gini coefficient (income)'</span>)</span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>plt.plot([], [], color<span class="op">=</span><span class="st">"#BF8F00"</span>, label<span class="op">=</span><span class="st">'Gini coefficient (wealth)'</span>)</span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>plt.plot([], [], color<span class="op">=</span><span class="st">'#215C98'</span>, label<span class="op">=</span><span class="st">'Consumption ratio'</span>)</span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>plt.legend(</span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>    loc<span class="op">=</span><span class="st">'lower center'</span>,</span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>    bbox_to_anchor<span class="op">=</span>(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.15</span>),</span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>    ncol<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>    handlelength<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>    handleheight<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>    borderpad<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>    columnspacing<span class="op">=</span><span class="fl">0.5</span></span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Data Source</span></span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.18</span>, <span class="st">'Data Source:'</span>, </span>
 <span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
 <span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Notes</span></span>
-<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.24</span>, <span class="st">'Gini:'</span>, </span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">23</span></span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.18</span>, space <span class="op">+</span> <span class="st">'National Bureau of Statistics of China (NBS), World Inequality Database (WID)'</span>, </span>
 <span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
 <span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
-<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">9</span></span>
-<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.24</span>, space <span class="op">+</span> <span class="st">'Gini coefficient is calculated using post-tax national income to measure income inequality'</span>, </span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Notes</span></span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.21</span>, <span class="st">'Ratio:'</span>, </span>
 <span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
-<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust</span></span>
-<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a><span class="co"># Save it...</span></span>
-<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>download_folder <span class="op">=</span> os.path.join(os.path.expanduser(<span class="st">"~"</span>), <span class="st">"Downloads"</span>)</span>
-<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> os.path.join(download_folder, <span class="ss">f"FIG_NBS_Inequality_China.png"</span>)</span>
-<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>plt.savefig(filename, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
-<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a><span class="co"># Show it :)</span></span>
-<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">7</span>,</span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">11</span></span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.21</span>, space <span class="op">+</span> <span class="st">'Urban-Rural Ratio measures the relative size between urban and rural consumption'</span>, </span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">7</span>,</span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Notes</span></span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.24</span>, <span class="st">'Gini:'</span>, </span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">7</span>,</span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">'bold'</span>,</span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>space <span class="op">=</span> <span class="st">" "</span> <span class="op">*</span> <span class="dv">9</span></span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">0</span>, <span class="op">-</span><span class="fl">0.24</span>, space <span class="op">+</span> <span class="st">'Gini coefficient is calculated using post-tax national income to measure income inequality'</span>, </span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>plt.gca().transAxes, </span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">7</span>,</span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust</span></span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a><span class="co"># Save it...</span></span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a>download_folder <span class="op">=</span> os.path.join(os.path.expanduser(<span class="st">"~"</span>), <span class="st">"Downloads"</span>)</span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> os.path.join(download_folder, <span class="ss">f"FIG_NBS_Inequality_China.png"</span>)</span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a>plt.savefig(filename, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a><span class="co"># Show it :)</span></span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div>
